@@ -1,0 +1,13 @@
+home/landing page
+- bit of info
+- link to upload image
+- link to login for saved progress?
+- link to upload file previously generated
+
+Upload pattern page
+- pattern dimensions
+- number of colours
+
+
+generated image page
+- interface with colour editing tools
