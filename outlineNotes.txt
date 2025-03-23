@@ -1,0 +1,41 @@
+Cross Stitch Apps to develop with Josh
+
+Feature Stories
+- As a user I want to import an image and generate a pattern
+- As a user I want to be able to determine pattern size
+- As a user I want to be able to determine number of colours
+- As a user I want to be able to save the pattern
+- As a user I want to be able to edit the pattern I have generated
+- As a user I want to be able to export the pattern
+- As a user I want access to the DMC colour pallette
+
+Advanced:
+- As a user I want to be able to open and edit a saved pattern
+- As a user I want to be able to access different stitch types
+- As a user I want colour pallette from other companies like Sullivans and Anchor
+- As a user I want to select the background colour of the canvas
+- As a user I want compatability with common stitching apps, aids and softwares
+
+Technical:
+- Web based
+- React
+- A nice look - not too dated
+
+Cross stitch text and border App
+Feature Stories Text
+- As a user I want to be able to generate a pattern from a text input
+- As a user I want to be able to select pattern area size
+- As a user I want to be able to select font style/Alphabet
+- As a user I want to be able to select font size (inc by letter)
+- As a user I want to be able to select text colour (inc by letter)
+- As a user I want to be able to set text alignment
+- As a user I want to be able to rearrange letters/text on the pattern
+- As a user I want to be able to save my pattern
+Feature Stories border
+- As a user I want to be able to pick a border
+- As a user I want to be able to edit colours
+- As a user I want to be able to select where the border displays
+
+Advanced
+- As a user I want to be able to generate a colour gradient over the text
+- As a user I want to be able to have the text and border respect each others placement
