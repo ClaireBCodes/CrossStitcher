@@ -1,0 +1,9 @@
+.footer-bar {
+  background-color: var(--background-dark);
+  color: var(--text-light);
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+}

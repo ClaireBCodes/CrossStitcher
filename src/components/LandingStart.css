@@ -1,0 +1,12 @@
+.landing-start {
+  text-align: center;
+  padding: 2rem;
+}
+
+.landing-info {
+  margin-bottom: 1.5rem;
+}
+
+.landing-actions button {
+  margin: 0.5rem;
+}

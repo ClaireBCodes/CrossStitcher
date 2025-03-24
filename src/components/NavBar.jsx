@@ -1,8 +1,11 @@
+import './NavBar.css';
+
 export function NavBar() {
-    return (
-    <nav>
-        <a href="#">link 1 etc</a>
-        <p>grab something from bootstrap to be nice and responsive, and have mouseover effects etc</p>
+  return (
+    <nav className="nav-bar">
+      <a href="#">Link 1</a>
+      <a href="#">Link 2</a>
+      <a href="#">Link 3</a>
     </nav>
-    )
+  );
 }

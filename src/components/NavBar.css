@@ -1,0 +1,19 @@
+.nav-bar {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  background-color: var(--background-light);
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.nav-bar a {
+  color: var(--primary-color);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav-bar a:hover {
+  color: var(--secondary-color);
+}
