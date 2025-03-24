@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import './ColorPalette.css';
+import ColorSwatch from './ColorSwatch';
+import ColorSearchBox from './ColorSearchBox';
+import SelectedColorInfo from './SelectedColorInfo';
 
 const ColorPalette = ({ colors, selectedColor, onSelectColor }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -14,27 +17,12 @@ const ColorPalette = ({ colors, selectedColor, onSelectColor }) => {
     <div className="color-palette">
       <h3>DMC Colors</h3>
       
-      <div className="color-search">
-        <input
-          type="text"
-          placeholder="Search colors..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
+      <ColorSearchBox 
+        searchTerm={searchTerm} 
+        setSearchTerm={setSearchTerm} 
+      />
       
-      {selectedColor && (
-        <div className="selected-color-info">
-          <div 
-            className="color-swatch" 
-            style={{ backgroundColor: `#${selectedColor.hex}` }}
-          />
-          <div className="color-details">
-            <div>DMC {selectedColor.floss}</div>
-            <div>{selectedColor.name}</div>
-          </div>
-        </div>
-      )}
+      <SelectedColorInfo selectedColor={selectedColor} />
       
       <div className="color-list">
         {filteredColors.map(color => (
@@ -44,11 +32,10 @@ const ColorPalette = ({ colors, selectedColor, onSelectColor }) => {
             onClick={() => onSelectColor(color)}
             title={`DMC ${color.floss} - ${color.name}`}
           >
-            <div 
-              className="color-swatch" 
-              style={{ backgroundColor: `#${color.hex}` }}
-            />
-            <div className="color-code">{color.floss}</div>
+            <ColorSwatch hexColor={color.hex} />
+            <div className="color-code">{
+              color.name == color.floss ? `${color.floss}` : `${color.name} ${color.floss}`
+            }</div>
           </div>
         ))}
       </div>

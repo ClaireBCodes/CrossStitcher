@@ -4,6 +4,8 @@ import ColorPalette from './ColorPalette';
 import Toolbar from './Toolbar';
 import './CrossStitchEditor.css';
 
+import dmcJson from '../assets/dmc.json';
+
 const CrossStitchEditor = () => {
   // Grid dimensions
   const GRID_SIZE = 100;
@@ -16,17 +18,9 @@ const CrossStitchEditor = () => {
   // State for selected color and tool
   const [selectedColor, setSelectedColor] = useState(null);
   const [currentTool, setCurrentTool] = useState('pencil'); // pencil, eraser
-  const [dmcColors, setDmcColors] = useState([]);
+  const [dmcColors, setDmcColors] = useState(dmcJson);
   const [isDrawing, setIsDrawing] = useState(false);
   
-  // Load DMC colors
-  useEffect(() => {
-    fetch('/dmc.json')
-      .then(response => response.json())
-      .then(data => setDmcColors(data))
-      .catch(error => console.error('Error loading DMC colors:', error));
-  }, []);
-
   // Handle cell click or drag
   const handleCellInteraction = (row, col) => {
     if (!isDrawing) return;
