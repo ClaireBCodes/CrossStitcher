@@ -1,12 +1,24 @@
 .landing-start {
   text-align: center;
   padding: 2rem;
+  background-color: var(--background-light);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .landing-info {
   margin-bottom: 1.5rem;
 }
 
-.landing-actions button {
+button {
   margin: 0.5rem;
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  border-radius: 50px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.landing-actions button:hover {
+  background-color: var(--secondary-color);
+  transform: scale(1.05);
 }

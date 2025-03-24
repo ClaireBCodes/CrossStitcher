@@ -8,6 +8,7 @@ import { NavBar } from './components/NavBar'
 import { FooterBar } from './components/FooterBar'
 import { MainBody } from './components/MainBody'
 
+
 function App() {
   const [count, setCount] = useState(0)
 
