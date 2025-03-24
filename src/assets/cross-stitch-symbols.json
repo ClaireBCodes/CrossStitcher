@@ -1,0 +1,382 @@
+[
+  {
+    "symbol": "■",
+    "type": "shape",
+    "description": "Filled square"
+  },
+  {
+    "symbol": "●",
+    "type": "shape",
+    "description": "Filled circle"
+  },
+  {
+    "symbol": "▲",
+    "type": "shape",
+    "description": "Filled triangle"
+  },
+  {
+    "symbol": "♦",
+    "type": "card",
+    "description": "Diamond suit"
+  },
+  {
+    "symbol": "♥",
+    "type": "card",
+    "description": "Heart suit"
+  },
+  {
+    "symbol": "♠",
+    "type": "card",
+    "description": "Spade suit"
+  },
+  {
+    "symbol": "♣",
+    "type": "card",
+    "description": "Club suit"
+  },
+  {
+    "symbol": "★",
+    "type": "shape",
+    "description": "Filled star"
+  },
+  {
+    "symbol": "◆",
+    "type": "shape",
+    "description": "Filled diamond"
+  },
+  {
+    "symbol": "□",
+    "type": "shape",
+    "description": "Empty square"
+  },
+  {
+    "symbol": "○",
+    "type": "shape",
+    "description": "Empty circle"
+  },
+  {
+    "symbol": "△",
+    "type": "shape",
+    "description": "Empty triangle"
+  },
+  {
+    "symbol": "◇",
+    "type": "shape",
+    "description": "Empty diamond"
+  },
+  {
+    "symbol": "☆",
+    "type": "shape",
+    "description": "Empty star"
+  },
+  {
+    "symbol": "+",
+    "type": "math",
+    "description": "Plus sign"
+  },
+  {
+    "symbol": "×",
+    "type": "math",
+    "description": "Multiplication sign"
+  },
+  {
+    "symbol": "÷",
+    "type": "math",
+    "description": "Division sign"
+  },
+  {
+    "symbol": "=",
+    "type": "math",
+    "description": "Equals sign"
+  },
+  {
+    "symbol": "#",
+    "type": "ascii",
+    "description": "Hash/pound"
+  },
+  {
+    "symbol": "@",
+    "type": "ascii",
+    "description": "At sign"
+  },
+  {
+    "symbol": "&",
+    "type": "ascii",
+    "description": "Ampersand"
+  },
+  {
+    "symbol": "%",
+    "type": "ascii",
+    "description": "Percent"
+  },
+  {
+    "symbol": "!",
+    "type": "ascii",
+    "description": "Exclamation mark"
+  },
+  {
+    "symbol": "?",
+    "type": "ascii",
+    "description": "Question mark"
+  },
+  {
+    "symbol": "$",
+    "type": "ascii",
+    "description": "Dollar sign"
+  },
+  {
+    "symbol": "€",
+    "type": "ascii",
+    "description": "Euro sign"
+  },
+  {
+    "symbol": "£",
+    "type": "ascii",
+    "description": "Pound sign"
+  },
+  {
+    "symbol": "¥",
+    "type": "ascii",
+    "description": "Yen sign"
+  },
+  {
+    "symbol": "^",
+    "type": "ascii",
+    "description": "Caret"
+  },
+  {
+    "symbol": "~",
+    "type": "ascii",
+    "description": "Tilde"
+  },
+  {
+    "symbol": "<",
+    "type": "math",
+    "description": "Less than"
+  },
+  {
+    "symbol": ">",
+    "type": "math",
+    "description": "Greater than"
+  },
+  {
+    "symbol": "0",
+    "type": "number",
+    "description": "Zero"
+  },
+  {
+    "symbol": "2",
+    "type": "number",
+    "description": "Two"
+  },
+  {
+    "symbol": "3",
+    "type": "number",
+    "description": "Three"
+  },
+  {
+    "symbol": "4",
+    "type": "number",
+    "description": "Four"
+  },
+  {
+    "symbol": "5",
+    "type": "number",
+    "description": "Five"
+  },
+  {
+    "symbol": "6",
+    "type": "number",
+    "description": "Six"
+  },
+  {
+    "symbol": "7",
+    "type": "number",
+    "description": "Seven"
+  },
+  {
+    "symbol": "8",
+    "type": "number",
+    "description": "Eight"
+  },
+  {
+    "symbol": "9",
+    "type": "number",
+    "description": "Nine"
+  },
+  {
+    "symbol": "A",
+    "type": "letter",
+    "description": "Capital A"
+  },
+  {
+    "symbol": "B",
+    "type": "letter",
+    "description": "Capital B"
+  },
+  {
+    "symbol": "C",
+    "type": "letter",
+    "description": "Capital C"
+  },
+  {
+    "symbol": "D",
+    "type": "letter",
+    "description": "Capital D"
+  },
+  {
+    "symbol": "E",
+    "type": "letter",
+    "description": "Capital E"
+  },
+  {
+    "symbol": "F",
+    "type": "letter",
+    "description": "Capital F"
+  },
+  {
+    "symbol": "G",
+    "type": "letter",
+    "description": "Capital G"
+  },
+  {
+    "symbol": "H",
+    "type": "letter",
+    "description": "Capital H"
+  },
+  {
+    "symbol": "J",
+    "type": "letter",
+    "description": "Capital J"
+  },
+  {
+    "symbol": "K",
+    "type": "letter",
+    "description": "Capital K"
+  },
+  {
+    "symbol": "M",
+    "type": "letter",
+    "description": "Capital M"
+  },
+  {
+    "symbol": "N",
+    "type": "letter",
+    "description": "Capital N"
+  },
+  {
+    "symbol": "P",
+    "type": "letter",
+    "description": "Capital P"
+  },
+  {
+    "symbol": "Q",
+    "type": "letter",
+    "description": "Capital Q"
+  },
+  {
+    "symbol": "R",
+    "type": "letter",
+    "description": "Capital R"
+  },
+  {
+    "symbol": "T",
+    "type": "letter",
+    "description": "Capital T"
+  },
+  {
+    "symbol": "U",
+    "type": "letter",
+    "description": "Capital U"
+  },
+  {
+    "symbol": "V",
+    "type": "letter",
+    "description": "Capital V"
+  },
+  {
+    "symbol": "W",
+    "type": "letter",
+    "description": "Capital W"
+  },
+  {
+    "symbol": "X",
+    "type": "letter",
+    "description": "Capital X"
+  },
+  {
+    "symbol": "Y",
+    "type": "letter",
+    "description": "Capital Y"
+  },
+  {
+    "symbol": "Z",
+    "type": "letter",
+    "description": "Capital Z"
+  },
+  {
+    "symbol": "a",
+    "type": "letter",
+    "description": "Lowercase a"
+  },
+  {
+    "symbol": "b",
+    "type": "letter",
+    "description": "Lowercase b"
+  },
+  {
+    "symbol": "d",
+    "type": "letter",
+    "description": "Lowercase d"
+  },
+  {
+    "symbol": "e",
+    "type": "letter",
+    "description": "Lowercase e"
+  },
+  {
+    "symbol": "g",
+    "type": "letter",
+    "description": "Lowercase g"
+  },
+  {
+    "symbol": "h",
+    "type": "letter",
+    "description": "Lowercase h"
+  },
+  {
+    "symbol": "m",
+    "type": "letter",
+    "description": "Lowercase m"
+  },
+  {
+    "symbol": "n",
+    "type": "letter",
+    "description": "Lowercase n"
+  },
+  {
+    "symbol": "q",
+    "type": "letter",
+    "description": "Lowercase q"
+  },
+  {
+    "symbol": "r",
+    "type": "letter",
+    "description": "Lowercase r"
+  },
+  {
+    "symbol": "t",
+    "type": "letter",
+    "description": "Lowercase t"
+  },
+  {
+    "symbol": "w",
+    "type": "letter",
+    "description": "Lowercase w"
+  },
+  {
+    "symbol": "y",
+    "type": "letter",
+    "description": "Lowercase y"
+  }
+]
