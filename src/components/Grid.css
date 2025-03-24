@@ -1,0 +1,45 @@
+.cross-stitch-grid {
+  display: inline-block;
+  border: 1px solid #ddd;
+  background: #f5f5f5;
+  cursor: crosshair;
+}
+
+.grid-row {
+  display: flex;
+}
+
+.grid-cell {
+  width: 15px;
+  height: 15px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.grid-cell:hover {
+  outline: 1px solid #666;
+  z-index: 1;
+}
+
+.grid-cell.filled:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  clip-path: polygon(
+    0% 50%, 50% 0%, 100% 50%, 50% 100%
+  ); /* X shape */
+}
+
+/* Add grid lines every 10 cells for better visibility */
+.grid-row:nth-child(10n) .grid-cell {
+  border-bottom: 1px solid #999;
+}
+
+.grid-cell:nth-child(10n) {
+  border-right: 1px solid #999;
+}
