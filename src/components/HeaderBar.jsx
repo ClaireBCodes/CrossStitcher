@@ -1,8 +1,9 @@
-export function HeaderBar() {
+import "../styles/componentStyles.css";
 
-    return (
-        <header>
-            <h1>🪡 Happy Stitch 🪡</h1>
-        </header>
-    )
+export function HeaderBar() {
+  return (
+    <header className="header-bar grad-pri-sec">
+      <h1>🪡 Happy Stitch 🪡</h1>
+    </header>
+  );
 }
