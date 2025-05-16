@@ -6,9 +6,9 @@ import CrossStitchEditor from "./CrossStitchEditor"
 export function MainBody() {
     return (
         <div>
-            <LandingStart />
-            <UploadInterface />
-            <BlankCanvasInterface />
+            {/* <LandingStart /> */}
+            {/* <UploadInterface />
+            <BlankCanvasInterface /> */}
             
             <CrossStitchEditor />
                       

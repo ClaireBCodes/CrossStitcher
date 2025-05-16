@@ -8,7 +8,8 @@
   background-color: #fdf0f5;
 
   --primary-color: #ff79c6;
-  --secondary-color: #bd93f9;
+  /* --secondary-color: #bd93f9; */
+  --secondary-color: #6495ED;
   --background-light: #fdf0f5;
   --background-dark: #282a36;
   --text-light: #fdf0f5;
