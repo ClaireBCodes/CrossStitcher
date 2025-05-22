@@ -11,23 +11,26 @@ import { Container } from 'react-bootstrap';
 function App() {
 
   return (
-    <div style={{
+    <Container style={{
       width: '100%', 
+      height: '100%',
       display: 'flex',
       flexDirection: 'column',
       minHeight: '100vh',
+      minWidth:'100vw',
+      padding:0
     }}>
 
       <HeaderBar />
       <NavBar />
-      <div style={{ flex: 1 }}>
+      <div style={{ flex: 1}}>
         <AppRoutes />
       </div>
       
       
       <FooterBar />
 
-    </div>
+    </Container>
   )
 }
 
