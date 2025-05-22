@@ -59,7 +59,7 @@ import '../styles/componentStyles.css'; */
   gap: 1.5rem;
   padding: 1rem 0;
   background-color: var(--primary-color);
-  border-bottom: 2px solid var(--secondary-color);
+  /* border-bottom: 2px solid var(--secondary-color); */
   /* border-radius: 12px; */
 }
 

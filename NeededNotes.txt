@@ -11,3 +11,10 @@ Upload pattern page
 
 generated image page
 - interface with colour editing tools
+
+
+To do
+- add scroll bars to grid to handle overflow
+- add ability to change grid size in X and Y directions
+- default to a colour when first loaded (black dmc310?)
+- Fix styling on navbar links when hovered, and when unhovered

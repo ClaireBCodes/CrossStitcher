@@ -9,7 +9,7 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 
 const CrossStitchEditor = () => {
   // Grid dimensions
-  const GRID_SIZE = 100;
+  const GRID_SIZE = 50;
 
   // Initialize empty grid with null values (no color)
   const [grid, setGrid] = useState(
@@ -125,7 +125,7 @@ const CrossStitchEditor = () => {
                 htmlFor="fileInput"
                 style={{ width: "100%", margin: 0, cursor: "pointer" }}
               >
-                Flooble
+                Load Pattern
               </Form.Label>
             </Button>
 
