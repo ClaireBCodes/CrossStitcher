@@ -32,7 +32,8 @@
   margin-bottom: 15px;
 }
 
-.file-operations button,
+.file-operations 
+/* button, */
 .button-like {
   padding: 10px;
   background-color: #4a76a8;
@@ -44,7 +45,8 @@
   font-size: 14px;
 }
 
-.file-operations button:hover,
+.file-operations 
+/* button:hover, */
 .button-like:hover {
   background-color: #3a5e85;
 }

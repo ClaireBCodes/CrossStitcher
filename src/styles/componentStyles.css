@@ -83,3 +83,13 @@ import '../styles/componentStyles.css'; */
   /* border-radius: 12px; */
   margin-top: 2rem;
 }
+.footer-bar a {
+  color: var(--text-light);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-bar a:hover {
+  color: var(--background-light);
+}
