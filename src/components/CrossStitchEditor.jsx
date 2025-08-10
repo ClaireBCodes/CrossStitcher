@@ -4,9 +4,12 @@ import ColorPalette from './ColorPalette';
 import Toolbar from './Toolbar';
 import './CrossStitchEditor.css';
 import { GridContext } from './GridContext';
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
 
 
-const CrossStitchEditor = ({colours = [], gridSize = 100, initialGrid = null}) => {
+const CrossStitchEditor = ({colours = [], gridSize = 100}) => {
   const { grid, setGrid } = useContext(GridContext);
 
   // Clear the entire grid

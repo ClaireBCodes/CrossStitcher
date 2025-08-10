@@ -94,8 +94,8 @@ export const EditorWithPattern = () => {
 
   return (
     <StoryWrapper>
-      <GridProvider>
-        <CrossStitchEditor colours={mockDmcColors} initialGrid={heart}/>
+      <GridProvider initialGrid={heart}>
+        <CrossStitchEditor colours={mockDmcColors}/>
       </GridProvider>
     </StoryWrapper>
   );
