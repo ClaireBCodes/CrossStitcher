@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import './ColorPalette.css';
+import { useContext } from 'react';
+import { GridContext } from './GridContext';
 
-const ColorPalette = ({ colors, selectedColor, onSelectColor }) => {
+const ColorPalette = ({ colors }) => {
+  const { selectedColour, setSelectedColour } = useContext(GridContext);
   const [searchTerm, setSearchTerm] = useState('');
   
   // Filter colors based on search term
@@ -23,15 +26,15 @@ const ColorPalette = ({ colors, selectedColor, onSelectColor }) => {
         />
       </div>
       
-      {selectedColor && (
+      {selectedColour && (
         <div className="selected-color-info">
           <div 
             className="color-swatch" 
-            style={{ backgroundColor: `#${selectedColor.hex}` }}
+            style={{ backgroundColor: `#${selectedColour.hex}` }}
           />
           <div className="color-details">
-            <div>DMC {selectedColor.floss}</div>
-            <div>{selectedColor.name}</div>
+            <div>DMC {selectedColour.floss}</div>
+            <div>{selectedColour.name}</div>
           </div>
         </div>
       )}
@@ -40,8 +43,8 @@ const ColorPalette = ({ colors, selectedColor, onSelectColor }) => {
         {filteredColors.map(color => (
           <div
             key={color.floss}
-            className={`color-item ${selectedColor?.floss === color.floss ? 'selected' : ''}`}
-            onClick={() => onSelectColor(color)}
+            className={`color-item ${selectedColour?.floss === color.floss ? 'selected' : ''}`}
+            onClick={() => setSelectedColour(color)}
             title={`DMC ${color.floss} - ${color.name}`}
           >
             <div 

@@ -1,68 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
-import Grid from "./Grid";
-import ColorPalette from "./ColorPalette";
-import Button from "react-bootstrap/Button";
-import Toolbar from "./Toolbar";
-import "./CrossStitchEditor.css";
-import Form from "react-bootstrap/Form";
-import FloatingLabel from "react-bootstrap/FloatingLabel";
+import React, { useState, useEffect, useContext } from 'react';
+import Grid from './Grid';
+import ColorPalette from './ColorPalette';
+import Toolbar from './Toolbar';
+import './CrossStitchEditor.css';
+import { GridContext } from './GridContext';
 
-const CrossStitchEditor = () => {
-  // Grid dimensions
-  const GRID_SIZE = 50;
 
-  // Initialize empty grid with null values (no color)
-  const [grid, setGrid] = useState(
-    Array(GRID_SIZE)
-      .fill()
-      .map(() => Array(GRID_SIZE).fill(null))
-  );
-
-  // State for selected color and tool
-  const [selectedColor, setSelectedColor] = useState(null);
-  const [currentTool, setCurrentTool] = useState("pencil"); // pencil, eraser
-  const [dmcColors, setDmcColors] = useState([]);
-  const [isDrawing, setIsDrawing] = useState(false);
-
-  // Load DMC colors
-  useEffect(() => {
-    fetch("/dmc.json")
-      .then((response) => response.json())
-      .then((data) => setDmcColors(data))
-      .catch((error) => console.error("Error loading DMC colors:", error));
-  }, []);
-
-  // Handle cell click or drag
-  const handleCellInteraction = (row, col) => {
-    if (!isDrawing) return;
-
-    const newGrid = [...grid];
-    if (currentTool === "pencil" && selectedColor) {
-      newGrid[row][col] = selectedColor;
-    } else if (currentTool === "eraser") {
-      newGrid[row][col] = null;
-    }
-    setGrid(newGrid);
-  };
-
-  // Handle mouse down on grid
-  const handleMouseDown = (row, col) => {
-    setIsDrawing(true);
-    handleCellInteraction(row, col);
-  };
-
-  // Handle mouse up (stop drawing)
-  const handleMouseUp = () => {
-    setIsDrawing(false);
-  };
+const CrossStitchEditor = ({colours = [], gridSize = 100, initialGrid = null}) => {
+  const { grid, setGrid } = useContext(GridContext);
 
   // Clear the entire grid
   const clearGrid = () => {
-    setGrid(
-      Array(GRID_SIZE)
-        .fill()
-        .map(() => Array(GRID_SIZE).fill(null))
-    );
+    setGrid(Array(gridSize).fill().map(() => Array(gridSize).fill(null)));
   };
 
   // Save pattern as JSON
@@ -103,8 +52,6 @@ const CrossStitchEditor = () => {
       <div className="editor-layout">
         <div className="tools-panel">
           <Toolbar
-            currentTool={currentTool}
-            setCurrentTool={setCurrentTool}
             clearGrid={clearGrid}
             savePattern={savePattern}
           />
@@ -145,26 +92,18 @@ const CrossStitchEditor = () => {
               onChange={loadPattern}
               style={{ display: "none" }}
             />
-
             <label htmlFor="load-pattern" className="button-like">
               <Button variant="primary">Load Pattern</Button>
             </label> */}
           </div>
-
-          <ColorPalette
-            colors={dmcColors}
-            selectedColor={selectedColor}
-            onSelectColor={setSelectedColor}
+          
+          <ColorPalette 
+            colors={colours}
           />
         </div>
 
         <div className="grid-container">
-          <Grid
-            grid={grid}
-            onMouseDown={handleMouseDown}
-            onMouseEnter={handleCellInteraction}
-            onMouseUp={handleMouseUp}
-          />
+          <Grid />
         </div>
       </div>
     </div>

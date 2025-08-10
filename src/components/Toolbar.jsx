@@ -1,16 +1,19 @@
-import React from 'react';
 import Button from "react-bootstrap/Button";
+import React, { useContext } from 'react';
 import './Toolbar.css';
+import { GridContext } from './GridContext';
 
-const Toolbar = ({ currentTool, setCurrentTool, clearGrid, savePattern }) => {
+const Toolbar = ({ clearGrid, savePattern }) => {
+  const { selectedTool, setSelectedTool} = useContext(GridContext);
+
   return (
     <div className="toolbar">
       <h3>Tools</h3>
       <div className="tool-buttons">
         <Button
           variant="primary"
-          className={`tool-button ${currentTool === "pencil" ? "active" : ""}`}
-          onClick={() => setCurrentTool("pencil")}
+          className={`tool-button ${selectedTool === 'pencil' ? 'active' : ''}`}
+          onClick={() => setSelectedTool("pencil")}
           title="Pencil (Draw)"
         >
           ✏️ Draw
@@ -18,8 +21,8 @@ const Toolbar = ({ currentTool, setCurrentTool, clearGrid, savePattern }) => {
 
         <Button
           variant="primary"
-          className={`tool-button ${currentTool === "eraser" ? "active" : ""}`}
-          onClick={() => setCurrentTool("eraser")}
+          className={`tool-button ${selectedTool === "eraser" ? "active" : ""}`}
+          onClick={() => setSelectedTool("eraser")}
           title="Eraser"
         >
           🧽 Erase

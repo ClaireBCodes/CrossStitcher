@@ -1,5 +1,6 @@
 import React from 'react';
 import CrossStitchEditor from '../components/CrossStitchEditor';
+import { GridProvider } from '../components/GridContext';
 
 // Mock DMC colors data for stories
 const mockDmcColors = [
@@ -53,56 +54,49 @@ const StoryWrapper = ({ children }) => {
 // Basic editor with default settings
 export const DefaultEditor = () => (
   <StoryWrapper>
-    <CrossStitchEditor />
+    <GridProvider>
+      <CrossStitchEditor colours={mockDmcColors} />
+    </GridProvider>
   </StoryWrapper>
 );
 
 // Editor with a pre-defined pattern
 export const EditorWithPattern = () => {
-  // Override the useEffect and useState hooks to start with a pre-filled grid
-  React.useEffect(() => {
-    // Inject a pattern after component mounts
-    setTimeout(() => {
-      // This is a hacky way to access the grid state - in a real application, 
-      // you'd have better patterns for this, but for Storybook it works
-      const gridCells = document.querySelectorAll('.grid-cell');
-      
-      // Create a simple pattern - a heart shape
-      const heart = [
-        [5, 10], [5, 11], [6, 9], [6, 12], 
-        [7, 8], [7, 13], [8, 8], [8, 13],
-        [9, 9], [9, 12], [10, 10], [10, 11]
-      ];
-      
-      // Apply the pattern (red color)
-      heart.forEach(([row, col]) => {
-        const index = row * 100 + col; // Assuming 100x100 grid
-        if (gridCells[index]) {
-          const event = new MouseEvent('mousedown', {
-            bubbles: true,
-            cancelable: true,
-            view: window
-          });
-          gridCells[index].dispatchEvent(event);
-        }
-      });
-    }, 500); // Wait a bit for the component to mount and initialize
-    
-    // Mock color selection
-    setTimeout(() => {
-      const colorItems = document.querySelectorAll('.color-item');
-      colorItems.forEach(item => {
-        if (item.textContent.includes('817')) { // Coral Red
-          item.click();
-          return;
-        }
-      });
-    }, 300);
-  }, []);
-  
+  const coral = { floss: '817', name: 'Coral Red', hex: 'E24D4D' }
+  const red = { floss: '666', name: 'Bright Red', hex: 'E31E24' }
+  const white = { floss: 'B5200', name: 'Snow White', hex: 'FFFFFF' }
+
+  const toColour = (row) => {
+    return row.map((cell) => {
+      switch (cell) {
+        case 1: return coral;
+        case 2: return red;
+        case 3: return white;
+        default: return null; // Default / 0 to no color
+      }
+    });
+  }
+
+  // Create a simple pattern - a heart shape
+  const heart = [
+    [0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,2,2,0,0,0,2,2,0,0,0],
+    [0,0,2,1,1,2,0,2,1,1,2,0,0],
+    [0,2,1,1,1,1,2,1,1,3,1,2,0],
+    [0,2,1,1,1,1,1,1,1,1,1,2,0],
+    [0,0,2,1,1,1,1,1,1,1,2,0,0],
+    [0,0,0,2,1,1,1,1,1,2,0,0,0],
+    [0,0,0,0,2,1,1,1,2,0,0,0,0],
+    [0,0,0,0,0,2,1,2,0,0,0,0,0],
+    [0,0,0,0,0,0,2,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ].map(toColour)
+
   return (
     <StoryWrapper>
-      <CrossStitchEditor />
+      <GridProvider>
+        <CrossStitchEditor colours={mockDmcColors} initialGrid={heart}/>
+      </GridProvider>
     </StoryWrapper>
   );
 };
@@ -121,7 +115,9 @@ export const EditorInEraseMode = () => {
   
   return (
     <StoryWrapper>
-      <CrossStitchEditor />
+      <GridProvider>
+        <CrossStitchEditor colours={mockDmcColors} />
+      </GridProvider>
     </StoryWrapper>
   );
 };
@@ -129,7 +125,9 @@ export const EditorInEraseMode = () => {
 // Mobile View
 export const MobileView = () => (
   <StoryWrapper>
-    <CrossStitchEditor />
+    <GridProvider>
+      <CrossStitchEditor />
+    </GridProvider>
   </StoryWrapper>
 );
 

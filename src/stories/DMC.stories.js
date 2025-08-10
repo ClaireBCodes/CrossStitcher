@@ -1,7 +1,7 @@
 import { DMC } from './DMC';
 
 export default {
-  title: 'Example/DMC',
+  title: 'Components/DMC',
   component: DMC,
   parameters: {
     layout: 'centered',

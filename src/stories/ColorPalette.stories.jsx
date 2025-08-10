@@ -1,5 +1,6 @@
 import React from 'react';
 import ColorPalette from '../components/ColorPalette';
+import { GridProvider } from '../components/GridContext';
 
 // Mock DMC color data
 const mockDmcColors = [
@@ -24,6 +25,15 @@ export default {
   argTypes: {
     onSelectColor: { action: 'color selected' },
   },
+  render: (args) => {
+    const {selectedColor, ...rest} = args;
+
+    return (
+      <GridProvider initialSelectedColour={selectedColor}>
+        <ColorPalette {...rest} />
+      </GridProvider>
+    )
+  }
 };
 
 // Default state with no selection
@@ -31,7 +41,7 @@ export const Default = {
   args: {
     colors: mockDmcColors,
     selectedColor: null,
-  },
+  }
 };
 
 // With a color selected
@@ -62,27 +72,31 @@ export const SearchResults = () => {
   );
   
   return (
-    <div style={{ width: '300px' }}>
-      <h3>Searching for: "{searchTerm}"</h3>
-      <ColorPalette 
-        colors={filteredColors}
-        selectedColor={null}
-        onSelectColor={() => {}}
-      />
-      <button onClick={() => setSearchTerm('')} style={{ marginTop: '10px' }}>
-        Clear Search
-      </button>
-    </div>
+    <GridProvider>
+      <div style={{ width: '300px' }}>
+        <h3>Searching for: "{searchTerm}"</h3>
+        <ColorPalette 
+          colors={filteredColors}
+          selectedColor={null}
+          onSelectColor={() => {}}
+        />
+        <button onClick={() => setSearchTerm('')} style={{ marginTop: '10px' }}>
+          Clear Search
+        </button>
+      </div>
+    </GridProvider>
   );
 };
 
 // Responsive view
 export const ResponsiveView = {
   render: (args) => (
-    <div style={{ width: '100%', maxWidth: '800px', resize: 'horizontal', overflow: 'auto', border: '1px dashed gray' }}>
-      <p>Resize this container to see how the component responds:</p>
-      <ColorPalette {...args} />
-    </div>
+    <GridProvider>
+      <div style={{ width: '100%', maxWidth: '800px', resize: 'horizontal', overflow: 'auto', border: '1px dashed gray' }}>
+        <p>Resize this container to see how the component responds:</p>
+        <ColorPalette {...args} />
+      </div>
+    </GridProvider>
   ),
   args: {
     colors: mockDmcColors,

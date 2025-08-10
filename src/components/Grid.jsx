@@ -1,7 +1,29 @@
-import React from 'react';
 import './Grid.css';
+import { useContext } from 'react';
+import { GridContext } from './GridContext';
+import { PencilTool, EraserTool } from './DrawingTools';
 
-const Grid = ({ grid, onMouseDown, onMouseEnter, onMouseUp }) => {
+const toTool = (tool) => {
+  switch (tool) {
+    case 'pencil':
+      return PencilTool();
+    case 'eraser':
+      return EraserTool();
+    default:
+      throw new Error(`Unknown tool: ${tool}`);
+  }
+}
+
+const Grid = () => {
+  const { grid, selectedTool } = useContext(GridContext);
+
+  const {
+    onMouseDown,
+    onMouseUp,
+    onClick,
+    onMouseEnter
+  } = toTool(selectedTool);
+
   return (
     <div 
       className="cross-stitch-grid"
@@ -14,9 +36,10 @@ const Grid = ({ grid, onMouseDown, onMouseEnter, onMouseUp }) => {
               key={`${rowIndex}-${colIndex}`}
               className={`grid-cell ${cell ? 'filled' : ''}`}
               style={cell ? { backgroundColor: `#${cell.hex}` } : {}}
-              onMouseDown={() => onMouseDown(rowIndex, colIndex)}
-              onMouseEnter={() => onMouseEnter(rowIndex, colIndex)}
+              onMouseDown={() => onMouseDown(rowIndex, colIndex, grid)}
+              onMouseEnter={() => onMouseEnter(rowIndex, colIndex, grid)}
               onMouseUp={onMouseUp}
+              onClick={() => onClick(rowIndex, colIndex, grid)}
             />
           ))}
         </div>
