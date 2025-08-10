@@ -1,6 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import Toolbar from '../components/Toolbar';
+import { GridContext, GridProvider } from '../components/GridContext';
 
 export default {
   title: 'CrossStitcher/Toolbar',
@@ -9,20 +10,27 @@ export default {
     layout: 'centered',
   },
   argTypes: {
-    setCurrentTool: { action: 'tool changed' },
+    currentTool: { control: 'text' },
     clearGrid: { action: 'grid cleared' },
     savePattern: { action: 'pattern saved' },
   },
 };
 
 // Template for creating stories
-const Template = (args) => <Toolbar {...args} />;
+const Template = (args) => {
+  const {currentTool, ...rest} = args;
+  return (
+    <GridProvider initialSelectedTool={currentTool}>
+      <Toolbar {...rest} />
+    </GridProvider>
+
+  )
+};
 
 // Default state with pencil tool selected
 export const PencilSelected = Template.bind({});
 PencilSelected.args = {
-  currentTool: 'pencil',
-  setCurrentTool: action('tool changed'),
+  currentTool: 'pencil',  
   clearGrid: action('grid cleared'),
   savePattern: action('pattern saved'),
 };
@@ -31,14 +39,13 @@ PencilSelected.args = {
 export const EraserSelected = Template.bind({});
 EraserSelected.args = {
   currentTool: 'eraser',
-  setCurrentTool: action('tool changed'),
   clearGrid: action('grid cleared'),
   savePattern: action('pattern saved'),
 };
 
 // Interactive state where user can switch between tools
 export const Interactive = () => {
-  const [currentTool, setCurrentTool] = React.useState('pencil');
+  const [selectedTool, setSelectedTool] = React.useState('pencil');
   
   const handleClearGrid = () => {
     // In a real implementation, this would clear the grid
@@ -53,21 +60,23 @@ export const Interactive = () => {
     action('pattern saved')();
     alert('Pattern would be saved in the real app');
   };
+
   
   return (
-    <div style={{ width: '300px' }}>
-      <h3>Current Tool: {currentTool}</h3>
-      <Toolbar
-        currentTool={currentTool}
-        setCurrentTool={setCurrentTool}
-        clearGrid={handleClearGrid}
-        savePattern={handleSavePattern}
-      />
-      <div style={{ marginTop: '20px' }}>
-        <p>Click on the buttons above to change tools or trigger actions.</p>
-        <p>The "Clear All" button will display a confirmation dialog.</p>
+    <GridContext.Provider value={{selectedTool, setSelectedTool}}>
+      <div style={{ width: '300px' }}>
+        <h3>Current Tool: {selectedTool}</h3>
+        <Toolbar
+          
+          clearGrid={handleClearGrid}
+          savePattern={handleSavePattern}
+        />
+        <div style={{ marginTop: '20px' }}>
+          <p>Click on the buttons above to change tools or trigger actions.</p>
+          <p>The "Clear All" button will display a confirmation dialog.</p>
+        </div>
       </div>
-    </div>
+    </GridContext.Provider>
   );
 };
 
@@ -75,7 +84,6 @@ export const Interactive = () => {
 export const MobileView = Template.bind({});
 MobileView.args = {
   currentTool: 'pencil',
-  setCurrentTool: action('tool changed'),
   clearGrid: action('grid cleared'),
   savePattern: action('pattern saved'),
 };

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { action } from '@storybook/addon-actions';
 import Grid from '../components/Grid';
+import { GridContext, GridProvider } from '../components/GridContext';
 
 export default {
   title: 'CrossStitcher/Grid',
@@ -33,7 +34,14 @@ const sampleColors = [
 ];
 
 // Base story that all other stories will use
-const Template = (args) => <Grid {...args} />;
+const Template = (args) => {
+  const {grid, ...rest} = args;
+  return (
+    <GridProvider initialGrid={grid}>
+      <Grid {...rest} />
+    </GridProvider>
+  )
+};
 
 // Empty grid
 export const EmptyGrid = Template.bind({});
@@ -86,30 +94,11 @@ CrossPattern.args = {
 
 // Interactive grid example
 export const InteractiveExample = () => {
-  const [gridState, setGridState] = React.useState(createMockGrid(20));
-  const [isDrawing, setIsDrawing] = React.useState(false);
-  const [selectedColor, setSelectedColor] = React.useState(sampleColors[0]);
-  
-  const handleMouseDown = (row, col) => {
-    setIsDrawing(true);
-    const newGrid = [...gridState];
-    newGrid[row][col] = selectedColor;
-    setGridState(newGrid);
-  };
-  
-  const handleMouseEnter = (row, col) => {
-    if (!isDrawing) return;
-    const newGrid = [...gridState];
-    newGrid[row][col] = selectedColor;
-    setGridState(newGrid);
-  };
-  
-  const handleMouseUp = () => {
-    setIsDrawing(false);
-  };
-  
-  return (
-    <div>
+  const DummyPallet = () => {
+
+    const {setGrid, selectedColour, setSelectedColour} = useContext(GridContext);
+
+    return (
       <div style={{ marginBottom: '20px' }}>
         <h3>Select a color:</h3>
         <div style={{ display: 'flex', gap: '10px' }}>
@@ -120,30 +109,35 @@ export const InteractiveExample = () => {
                 width: '30px', 
                 height: '30px', 
                 backgroundColor: `#${color.hex}`,
-                border: selectedColor.floss === color.floss ? '2px solid black' : '1px solid #ddd',
+                border: selectedColour.floss === color.floss ? '2px solid black' : '1px solid #ddd',
                 cursor: 'pointer'
               }}
-              onClick={() => setSelectedColor(color)}
+              onClick={() => setSelectedColour(color)}
               title={color.name}
             />
           ))}
         </div>
         <button 
           style={{ marginTop: '10px' }}
-          onClick={() => setGridState(createMockGrid(20))}
+          onClick={() => setGrid(createMockGrid(20))}
         >
           Clear Grid
         </button>
       </div>
-      <Grid 
-        grid={gridState} 
-        onMouseDown={handleMouseDown}
-        onMouseEnter={handleMouseEnter}
-        onMouseUp={handleMouseUp}
-      />
-      <div style={{ marginTop: '20px' }}>
-        <p>Click and drag to draw on the grid</p>
+    )
+  }
+  
+  return (
+    <GridProvider initialSelectedColour={sampleColors[0]} initialGrid={createMockGrid(20)}>
+      <div>
+
+        <DummyPallet />
+        
+        <Grid />
+        <div style={{ marginTop: '20px' }}>
+          <p>Click and drag to draw on the grid</p>
+        </div>
       </div>
-    </div>
+    </GridProvider>
   );
 };
