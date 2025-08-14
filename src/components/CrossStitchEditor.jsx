@@ -14,10 +14,12 @@ import FileOperations from './editor/FileOperations';
 import GridSizeControls from './editor/GridSizeControls';
 import CanvasBackgroundSelector from './editor/CanvasBackgroundSelector';
 import ImageImport from './editor/ImageImport';
+import PatternExport from './editor/PatternExport';
 
 const CrossStitchEditor = ({ colours = [] }) => {
   const { grid, setGrid } = useContext(GridContext);
   const [showImageImport, setShowImageImport] = useState(false);
+  const [showPatternExport, setShowPatternExport] = useState(false);
 
   // Clear the entire grid
   const clearGrid = () => {
@@ -66,6 +68,14 @@ const CrossStitchEditor = ({ colours = [] }) => {
                   <i className="bi bi-image"></i>
                   <span>Import Image</span>
                 </button>
+                <button 
+                  className="btn-icon-text"
+                  onClick={() => setShowPatternExport(true)}
+                  title="Export pattern"
+                >
+                  <i className="bi bi-download"></i>
+                  <span>Export Pattern</span>
+                </button>
                 <GridSizeControls />
               </Accordion.Body>
             </Accordion.Item>
@@ -88,6 +98,10 @@ const CrossStitchEditor = ({ colours = [] }) => {
       
       {showImageImport && (
         <ImageImport onClose={() => setShowImageImport(false)} />
+      )}
+      
+      {showPatternExport && (
+        <PatternExport onClose={() => setShowPatternExport(false)} />
       )}
     </div>
   );
