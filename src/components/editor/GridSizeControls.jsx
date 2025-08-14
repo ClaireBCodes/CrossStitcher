@@ -21,7 +21,11 @@ const GridSizeControls = () => {
   };
 
   const handleApplySize = () => {
-    if (window.confirm(`Change grid size to ${newWidth}x${newHeight}? This will clear the undo history.`)) {
+    if (
+      window.confirm(
+        `Change grid size to ${newWidth}x${newHeight}? This will clear the undo history.`
+      )
+    ) {
       changeGridSize(newWidth, newHeight);
     }
   };

@@ -5,7 +5,7 @@ import { ZOOM_CONFIG } from '../../constants/editor';
 
 const ZoomControls = () => {
   const { zoomLevel, zoomIn, zoomOut, resetZoom } = useContext(GridContext);
-  
+
   return (
     <div className="zoom-controls">
       <Button
@@ -18,9 +18,9 @@ const ZoomControls = () => {
       >
         <i className="bi bi-zoom-out"></i>
       </Button>
-      
+
       <span className="zoom-level">{Math.round(zoomLevel * 100)}%</span>
-      
+
       <Button
         variant="outline-secondary"
         size="sm"
@@ -31,7 +31,7 @@ const ZoomControls = () => {
       >
         <i className="bi bi-zoom-in"></i>
       </Button>
-      
+
       <Button
         variant="outline-secondary"
         size="sm"

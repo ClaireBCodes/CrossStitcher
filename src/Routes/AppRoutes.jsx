@@ -1,9 +1,8 @@
-import { Routes, Route } from "react-router-dom";
-import { AboutPage } from "../Pages/AboutPage";
-import { EditorPage } from "../pages/EditorPage";
-import { FreebiesPage } from "../Pages/FreebiesPage";
-import { PageNotFound } from "../Pages/PageNotFound";
-
+import { Routes, Route } from 'react-router-dom';
+import { AboutPage } from '../Pages/AboutPage';
+import { EditorPage } from '../pages/EditorPage';
+import { FreebiesPage } from '../Pages/FreebiesPage';
+import { PageNotFound } from '../Pages/PageNotFound';
 
 function AppRoutes(props) {
   return (

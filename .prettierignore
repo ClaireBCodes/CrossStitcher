@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+storybook-static/
+coverage/
+
+# Lock files
+package-lock.json
+devbox.lock
+
+# Generated files
+*.min.js
+*.min.css
+
+# Assets
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico
+*.avif
+
+# Data files
+src/assets/dmc.json
+src/stories/assets/dmc.json

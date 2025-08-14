@@ -6,17 +6,19 @@ import { GridContext } from './GridContext';
 const ColorPalette = ({ colors = [] }) => {
   const { selectedColour, setSelectedColour } = useContext(GridContext);
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   // Filter colors based on search term
-  const filteredColors = colors.filter(color => 
-    (color.name?.toLowerCase() || color.description?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
-    (color.floss?.toLowerCase() || '').includes(searchTerm.toLowerCase())
+  const filteredColors = colors.filter(
+    (color) =>
+      (color.name?.toLowerCase() || color.description?.toLowerCase() || '').includes(
+        searchTerm.toLowerCase()
+      ) || (color.floss?.toLowerCase() || '').includes(searchTerm.toLowerCase())
   );
 
   return (
     <div className="color-palette">
       <h3>DMC Colors</h3>
-      
+
       <div className="color-search">
         <input
           type="text"
@@ -26,11 +28,11 @@ const ColorPalette = ({ colors = [] }) => {
           aria-label="Search colors"
         />
       </div>
-      
+
       {selectedColour && (
         <div className="selected-color-info">
-          <div 
-            className="color-swatch" 
+          <div
+            className="color-swatch"
             style={{ backgroundColor: `#${selectedColour.hex}` }}
             aria-label={`Selected color: ${selectedColour.name || selectedColour.description}`}
           />
@@ -40,9 +42,9 @@ const ColorPalette = ({ colors = [] }) => {
           </div>
         </div>
       )}
-      
+
       <div className="color-list" role="list">
-        {filteredColors.map(color => (
+        {filteredColors.map((color) => (
           <div
             key={color.floss}
             className={`color-item ${selectedColour?.floss === color.floss ? 'selected' : ''}`}
@@ -58,32 +60,29 @@ const ColorPalette = ({ colors = [] }) => {
             tabIndex={0}
             aria-selected={selectedColour?.floss === color.floss}
           >
-            <div 
-              className="color-swatch" 
-              style={{ backgroundColor: `#${color.hex}` }}
-            />
+            <div className="color-swatch" style={{ backgroundColor: `#${color.hex}` }} />
             <div className="color-code">{color.floss}</div>
           </div>
         ))}
       </div>
-      
-      {filteredColors.length === 0 && (
-        <div className="no-colors-found">No colors found</div>
-      )}
+
+      {filteredColors.length === 0 && <div className="no-colors-found">No colors found</div>}
     </div>
   );
 };
 
 ColorPalette.propTypes = {
-  colors: PropTypes.arrayOf(PropTypes.shape({
-    floss: PropTypes.string.isRequired,
-    hex: PropTypes.string.isRequired,
-    name: PropTypes.string,
-    description: PropTypes.string,
-    red: PropTypes.number,
-    green: PropTypes.number,
-    blue: PropTypes.number
-  }))
+  colors: PropTypes.arrayOf(
+    PropTypes.shape({
+      floss: PropTypes.string.isRequired,
+      hex: PropTypes.string.isRequired,
+      name: PropTypes.string,
+      description: PropTypes.string,
+      red: PropTypes.number,
+      green: PropTypes.number,
+      blue: PropTypes.number,
+    })
+  ),
 };
 
 export default ColorPalette;

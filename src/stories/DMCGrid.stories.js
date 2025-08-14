@@ -8,7 +8,7 @@ export default {
     layout: 'centered',
   },
   tags: ['autodocs'],
-}
+};
 
 export const Grid = {
   args: {

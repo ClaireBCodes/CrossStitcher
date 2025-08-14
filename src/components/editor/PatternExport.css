@@ -43,7 +43,7 @@
   background: var(--color-button-bg);
 }
 
-.format-option input[type="radio"] {
+.format-option input[type='radio'] {
   margin-top: 2px;
 }
 
@@ -106,7 +106,7 @@
   font-size: var(--font-size-md);
 }
 
-.image-options input[type="range"] {
+.image-options input[type='range'] {
   flex: 1;
   margin: 0 var(--spacing-sm);
 }

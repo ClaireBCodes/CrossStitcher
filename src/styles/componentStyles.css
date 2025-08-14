@@ -3,8 +3,8 @@ import '../styles/componentStyles.css'; */
 
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
-.grad-pri-sec{
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+.grad-pri-sec {
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
 }
 
 .header-bar {
@@ -24,7 +24,6 @@ import '../styles/componentStyles.css'; */
   /* -webkit-background-clip: text; */
   /* -webkit-text-fill-color: transparent; */
   margin: 0;
-  
 }
 
 .landing-start {
@@ -44,14 +43,15 @@ import '../styles/componentStyles.css'; */
   background-color: var(--primary-color);
   color: var(--text-light);
   border-radius: 50px;
-  transition: background-color 0.3s, transform 0.2s;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
 }
 
 .landing-actions button:hover {
   background-color: var(--secondary-color);
   transform: scale(1.05);
 }
-
 
 .nav-bar {
   display: flex;

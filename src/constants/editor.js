@@ -48,7 +48,7 @@ export const SHORTCUTS = {
   UNDO: { key: 'z', ctrl: true },
   REDO: [
     { key: 'y', ctrl: true },
-    { key: 'z', ctrl: true, shift: true }
+    { key: 'z', ctrl: true, shift: true },
   ],
   ZOOM_IN: { key: '=', ctrl: true },
   ZOOM_OUT: { key: '-', ctrl: true },

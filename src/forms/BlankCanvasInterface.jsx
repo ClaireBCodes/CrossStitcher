@@ -1,6 +1,5 @@
-
 import Form from 'react-bootstrap/Form';
-import "../styles/componentStyles.css"; 
+import '../styles/componentStyles.css';
 import Button from 'react-bootstrap/Button';
 
 export function BlankCanvasInterface() {

@@ -5,7 +5,7 @@ import ColorPalette from './ColorPalette';
 import Toolbar from './Toolbar';
 import './CrossStitchEditor.css';
 import { GridContext } from './GridContext';
-import Accordion from "react-bootstrap/Accordion";
+import Accordion from 'react-bootstrap/Accordion';
 
 // Extracted components
 import UndoRedoControls from './editor/UndoRedoControls';
@@ -25,9 +25,12 @@ const CrossStitchEditor = ({ colours = [] }) => {
   const clearGrid = () => {
     const currentHeight = grid.length;
     const currentWidth = grid[0]?.length || 50;
-    setGrid(Array(currentHeight).fill().map(() => Array(currentWidth).fill(null)));
+    setGrid(
+      Array(currentHeight)
+        .fill()
+        .map(() => Array(currentWidth).fill(null))
+    );
   };
-
 
   return (
     <div className="cross-stitch-editor">
@@ -36,14 +39,12 @@ const CrossStitchEditor = ({ colours = [] }) => {
           <div className="sidebar-header">
             <h2>CrossStitcher</h2>
           </div>
-          
+
           <Accordion defaultActiveKey={['0', '1', '2', '3']} alwaysOpen>
             <Accordion.Item eventKey="0">
               <Accordion.Header>Tools</Accordion.Header>
               <Accordion.Body>
-                <Toolbar
-                  clearGrid={clearGrid}
-                />
+                <Toolbar clearGrid={clearGrid} />
                 <UndoRedoControls />
                 <ZoomControls />
               </Accordion.Body>
@@ -60,7 +61,7 @@ const CrossStitchEditor = ({ colours = [] }) => {
               <Accordion.Header>File</Accordion.Header>
               <Accordion.Body>
                 <FileOperations />
-                <button 
+                <button
                   className="btn-icon-text"
                   onClick={() => setShowImageImport(true)}
                   title="Import image as pattern"
@@ -68,7 +69,7 @@ const CrossStitchEditor = ({ colours = [] }) => {
                   <i className="bi bi-image"></i>
                   <span>Import Image</span>
                 </button>
-                <button 
+                <button
                   className="btn-icon-text"
                   onClick={() => setShowPatternExport(true)}
                   title="Export pattern"
@@ -95,28 +96,26 @@ const CrossStitchEditor = ({ colours = [] }) => {
           </div>
         </main>
       </div>
-      
-      {showImageImport && (
-        <ImageImport onClose={() => setShowImageImport(false)} />
-      )}
-      
-      {showPatternExport && (
-        <PatternExport onClose={() => setShowPatternExport(false)} />
-      )}
+
+      {showImageImport && <ImageImport onClose={() => setShowImageImport(false)} />}
+
+      {showPatternExport && <PatternExport onClose={() => setShowPatternExport(false)} />}
     </div>
   );
 };
 
 CrossStitchEditor.propTypes = {
-  colours: PropTypes.arrayOf(PropTypes.shape({
-    floss: PropTypes.string.isRequired,
-    hex: PropTypes.string.isRequired,
-    name: PropTypes.string,
-    description: PropTypes.string,
-    red: PropTypes.number,
-    green: PropTypes.number,
-    blue: PropTypes.number
-  }))
+  colours: PropTypes.arrayOf(
+    PropTypes.shape({
+      floss: PropTypes.string.isRequired,
+      hex: PropTypes.string.isRequired,
+      name: PropTypes.string,
+      description: PropTypes.string,
+      red: PropTypes.number,
+      green: PropTypes.number,
+      blue: PropTypes.number,
+    })
+  ),
 };
 
 export default CrossStitchEditor;

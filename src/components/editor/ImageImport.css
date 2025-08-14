@@ -148,7 +148,7 @@
   font-size: var(--font-size-md);
 }
 
-.setting-group input[type="number"] {
+.setting-group input[type='number'] {
   width: 100%;
   padding: var(--spacing-sm);
   background: var(--color-button-bg);
@@ -158,12 +158,12 @@
   font-size: var(--font-size-md);
 }
 
-.setting-group input[type="number"]:focus {
+.setting-group input[type='number']:focus {
   outline: none;
   border-color: var(--color-primary);
 }
 
-.setting-group input[type="checkbox"] {
+.setting-group input[type='checkbox'] {
   margin-right: var(--spacing-sm);
 }
 

@@ -25,6 +25,7 @@ class DrawingTool {
     this.applyTool(rowIndex, colIndex);
   }
 
+  // eslint-disable-next-line no-unused-vars
   applyTool(rowIndex, colIndex) {
     // Override in subclasses
   }
@@ -33,15 +34,13 @@ class DrawingTool {
 class PencilTool extends DrawingTool {
   applyTool(rowIndex, colIndex) {
     const { grid, selectedColour, setGrid } = this.context;
-    
+
     if (!selectedColour) return;
-    
+
     const newGrid = grid.map((row, rIdx) =>
-      row.map((cell, cIdx) =>
-        rIdx === rowIndex && cIdx === colIndex ? selectedColour : cell
-      )
+      row.map((cell, cIdx) => (rIdx === rowIndex && cIdx === colIndex ? selectedColour : cell))
     );
-    
+
     setGrid(newGrid);
   }
 }
@@ -49,13 +48,11 @@ class PencilTool extends DrawingTool {
 class EraserTool extends DrawingTool {
   applyTool(rowIndex, colIndex) {
     const { grid, setGrid } = this.context;
-    
+
     const newGrid = grid.map((row, rIdx) =>
-      row.map((cell, cIdx) =>
-        rIdx === rowIndex && cIdx === colIndex ? null : cell
-      )
+      row.map((cell, cIdx) => (rIdx === rowIndex && cIdx === colIndex ? null : cell))
     );
-    
+
     setGrid(newGrid);
   }
 }

@@ -1,7 +1,7 @@
-import "../styles/componentStyles.css";
-import React from "react";
-import Nav from "react-bootstrap/Nav";
-import { Link } from "react-router-dom";
+import '../styles/componentStyles.css';
+import React from 'react';
+import Nav from 'react-bootstrap/Nav';
+import { Link } from 'react-router-dom';
 
 export function NavBar() {
   return (

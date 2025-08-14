@@ -1,10 +1,6 @@
+import { Link } from 'react-router-dom';
+import { MainBody } from '../components/MainBody';
 
-import { Link } from "react-router-dom";
-import { MainBody } from "../components/MainBody"
-
-export function EditorPage () {
-
-    return (
-        <MainBody />
-    );
+export function EditorPage() {
+  return <MainBody />;
 }

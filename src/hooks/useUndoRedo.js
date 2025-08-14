@@ -2,7 +2,7 @@ import { useReducer, useCallback } from 'react';
 
 const initialState = (initial) => ({
   history: [initial],
-  currentIndex: 0
+  currentIndex: 0,
 });
 
 const undoRedoReducer = (state, action) => {
@@ -10,42 +10,42 @@ const undoRedoReducer = (state, action) => {
     case 'SET_STATE': {
       const newHistory = state.history.slice(0, state.currentIndex + 1);
       newHistory.push(action.payload);
-      
+
       // Limit history to 50 states
       if (newHistory.length > 50) {
         return {
           history: newHistory.slice(1),
-          currentIndex: 49
+          currentIndex: 49,
         };
       }
-      
+
       return {
         history: newHistory,
-        currentIndex: newHistory.length - 1
+        currentIndex: newHistory.length - 1,
       };
     }
-    
+
     case 'UNDO': {
       return {
         ...state,
-        currentIndex: Math.max(0, state.currentIndex - 1)
+        currentIndex: Math.max(0, state.currentIndex - 1),
       };
     }
-    
+
     case 'REDO': {
       return {
         ...state,
-        currentIndex: Math.min(state.history.length - 1, state.currentIndex + 1)
+        currentIndex: Math.min(state.history.length - 1, state.currentIndex + 1),
       };
     }
-    
+
     case 'CLEAR_HISTORY': {
       return {
         history: [state.history[state.currentIndex]],
-        currentIndex: 0
+        currentIndex: 0,
       };
     }
-    
+
     default:
       return state;
   }
@@ -81,7 +81,7 @@ export const useUndoRedo = (initialValue) => {
     redo,
     canUndo,
     canRedo,
-    clearHistory
+    clearHistory,
   };
 };
 

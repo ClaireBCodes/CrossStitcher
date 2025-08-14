@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 
-function DMC({name, floss, hex}) {
+function DMC({ name, floss, hex }) {
   const hexWithHash = `#${hex}`;
 
   return (
-    <div className="dmc" style={{backgroundColor: hexWithHash}}>
+    <div className="dmc" style={{ backgroundColor: hexWithHash }}>
       {name} - {floss} - {hexWithHash}
     </div>
   );

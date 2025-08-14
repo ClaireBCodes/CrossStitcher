@@ -5,10 +5,17 @@ import { GRID_CONFIG, ZOOM_CONFIG, TOOLS } from '../constants/editor';
 const GridContext = React.createContext();
 
 const blankGrid = (x_size = GRID_CONFIG.DEFAULT_WIDTH, y_size = GRID_CONFIG.DEFAULT_HEIGHT) => {
-  return Array(y_size).fill().map(() => Array(x_size).fill(null));
-}
+  return Array(y_size)
+    .fill()
+    .map(() => Array(x_size).fill(null));
+};
 
-const GridProvider = ({children, initialSelectedColour = null, initialGrid = null, initialSelectedTool = TOOLS.PENCIL}) => {
+const GridProvider = ({
+  children,
+  initialSelectedColour = null,
+  initialGrid = null,
+  initialSelectedTool = TOOLS.PENCIL,
+}) => {
   const defaultGrid = initialGrid || blankGrid();
   const {
     state: grid,
@@ -17,52 +24,58 @@ const GridProvider = ({children, initialSelectedColour = null, initialGrid = nul
     redo,
     canUndo,
     canRedo,
-    clearHistory
+    clearHistory,
   } = useUndoRedo(defaultGrid);
-  
+
   const [selectedColour, setSelectedColour] = useState(initialSelectedColour);
   const [selectedTool, setSelectedTool] = useState(initialSelectedTool);
-  const [gridSize, setGridSize] = useState({ 
-    width: GRID_CONFIG.DEFAULT_WIDTH, 
-    height: GRID_CONFIG.DEFAULT_HEIGHT 
+  const [gridSize, setGridSize] = useState({
+    width: GRID_CONFIG.DEFAULT_WIDTH,
+    height: GRID_CONFIG.DEFAULT_HEIGHT,
   });
   const [zoomLevel, setZoomLevel] = useState(ZOOM_CONFIG.DEFAULT);
   const [canvasBackground, setCanvasBackground] = useState('#f5f5f5');
-  
+
   // Wrapper for setGrid to maintain compatibility
-  const setGrid = useCallback((newGrid) => {
-    if (typeof newGrid === 'function') {
-      setGridWithHistory(newGrid(grid));
-    } else {
-      setGridWithHistory(newGrid);
-    }
-  }, [grid, setGridWithHistory]);
+  const setGrid = useCallback(
+    (newGrid) => {
+      if (typeof newGrid === 'function') {
+        setGridWithHistory(newGrid(grid));
+      } else {
+        setGridWithHistory(newGrid);
+      }
+    },
+    [grid, setGridWithHistory]
+  );
 
   // Function to change grid size
-  const changeGridSize = useCallback((width, height) => {
-    const newGrid = blankGrid(width, height);
-    // Copy existing pattern to new grid (centered if smaller, cropped if larger)
-    const minWidth = Math.min(width, grid[0]?.length || 0);
-    const minHeight = Math.min(height, grid.length);
-    
-    for (let y = 0; y < minHeight; y++) {
-      for (let x = 0; x < minWidth; x++) {
-        newGrid[y][x] = grid[y][x];
+  const changeGridSize = useCallback(
+    (width, height) => {
+      const newGrid = blankGrid(width, height);
+      // Copy existing pattern to new grid (centered if smaller, cropped if larger)
+      const minWidth = Math.min(width, grid[0]?.length || 0);
+      const minHeight = Math.min(height, grid.length);
+
+      for (let y = 0; y < minHeight; y++) {
+        for (let x = 0; x < minWidth; x++) {
+          newGrid[y][x] = grid[y][x];
+        }
       }
-    }
-    
-    setGridWithHistory(newGrid);
-    setGridSize({ width, height });
-    clearHistory();
-  }, [grid, setGridWithHistory, clearHistory]);
+
+      setGridWithHistory(newGrid);
+      setGridSize({ width, height });
+      clearHistory();
+    },
+    [grid, setGridWithHistory, clearHistory]
+  );
 
   // Zoom functions
   const zoomIn = useCallback(() => {
-    setZoomLevel(prev => Math.min(prev + ZOOM_CONFIG.STEP, ZOOM_CONFIG.MAX));
+    setZoomLevel((prev) => Math.min(prev + ZOOM_CONFIG.STEP, ZOOM_CONFIG.MAX));
   }, []);
 
   const zoomOut = useCallback(() => {
-    setZoomLevel(prev => Math.max(prev - ZOOM_CONFIG.STEP, ZOOM_CONFIG.MIN));
+    setZoomLevel((prev) => Math.max(prev - ZOOM_CONFIG.STEP, ZOOM_CONFIG.MIN));
   }, []);
 
   const resetZoom = useCallback(() => {
@@ -83,8 +96,10 @@ const GridProvider = ({children, initialSelectedColour = null, initialGrid = nul
         undo();
       }
       // Ctrl/Cmd + Shift + Z or Ctrl/Cmd + Y for redo
-      else if (((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'z') || 
-               ((e.ctrlKey || e.metaKey) && e.key === 'y')) {
+      else if (
+        ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'z') ||
+        ((e.ctrlKey || e.metaKey) && e.key === 'y')
+      ) {
         if (canRedo) {
           e.preventDefault();
           redo();
@@ -93,20 +108,17 @@ const GridProvider = ({children, initialSelectedColour = null, initialGrid = nul
       // Tool shortcuts
       else if (e.key === 'p') {
         setSelectedTool(TOOLS.PENCIL);
-      }
-      else if (e.key === 'e') {
+      } else if (e.key === 'e') {
         setSelectedTool(TOOLS.ERASER);
       }
       // Zoom shortcuts
       else if ((e.ctrlKey || e.metaKey) && e.key === '=') {
         e.preventDefault();
         zoomIn();
-      }
-      else if ((e.ctrlKey || e.metaKey) && e.key === '-') {
+      } else if ((e.ctrlKey || e.metaKey) && e.key === '-') {
         e.preventDefault();
         zoomOut();
-      }
-      else if ((e.ctrlKey || e.metaKey) && e.key === '0') {
+      } else if ((e.ctrlKey || e.metaKey) && e.key === '0') {
         e.preventDefault();
         resetZoom();
       }
@@ -117,29 +129,31 @@ const GridProvider = ({children, initialSelectedColour = null, initialGrid = nul
   }, [canUndo, canRedo, undo, redo, zoomIn, zoomOut, resetZoom]);
 
   return (
-    <GridContext.Provider value={{ 
-      grid, 
-      setGrid, 
-      selectedColour, 
-      setSelectedColour, 
-      selectedTool, 
-      setSelectedTool,
-      undo,
-      redo,
-      canUndo,
-      canRedo,
-      gridSize,
-      changeGridSize,
-      zoomLevel,
-      zoomIn,
-      zoomOut,
-      resetZoom,
-      canvasBackground,
-      setCanvasBackground
-    }}>
+    <GridContext.Provider
+      value={{
+        grid,
+        setGrid,
+        selectedColour,
+        setSelectedColour,
+        selectedTool,
+        setSelectedTool,
+        undo,
+        redo,
+        canUndo,
+        canRedo,
+        gridSize,
+        changeGridSize,
+        zoomLevel,
+        zoomIn,
+        zoomOut,
+        resetZoom,
+        canvasBackground,
+        setCanvasBackground,
+      }}
+    >
       {children}
     </GridContext.Provider>
   );
-}
+};
 
 export { GridContext, GridProvider, blankGrid };

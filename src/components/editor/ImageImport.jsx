@@ -12,7 +12,7 @@ const ImageImport = ({ onClose }) => {
     width: grid[0]?.length || 50,
     height: grid.length || 50,
     maxColors: 20,
-    maintainAspectRatio: true
+    maintainAspectRatio: true,
   });
   const [error, setError] = useState(null);
   const fileInputRef = useRef(null);
@@ -41,27 +41,27 @@ const ImageImport = ({ onClose }) => {
           if (importSettings.maintainAspectRatio) {
             const aspectRatio = img.width / img.height;
             const targetRatio = importSettings.width / importSettings.height;
-            
+
             let newWidth = importSettings.width;
             let newHeight = importSettings.height;
-            
+
             if (aspectRatio > targetRatio) {
               newHeight = Math.round(importSettings.width / aspectRatio);
             } else {
               newWidth = Math.round(importSettings.height * aspectRatio);
             }
-            
-            setImportSettings(prev => ({
+
+            setImportSettings((prev) => ({
               ...prev,
               width: newWidth,
-              height: newHeight
+              height: newHeight,
             }));
           }
-          
+
           setPreview({
             src: e.target.result,
             originalWidth: img.width,
-            originalHeight: img.height
+            originalHeight: img.height,
           });
         };
         img.src = e.target.result;
@@ -86,7 +86,7 @@ const ImageImport = ({ onClose }) => {
 
       // Convert file input to File object
       const file = fileInputRef.current.files[0];
-      
+
       // Process the image
       const result = await imageProcessor.current.processImage(
         file,
@@ -112,9 +112,9 @@ const ImageImport = ({ onClose }) => {
   };
 
   const handleSettingChange = (key, value) => {
-    setImportSettings(prev => {
+    setImportSettings((prev) => {
       const updated = { ...prev, [key]: value };
-      
+
       // Recalculate dimensions if aspect ratio lock is enabled
       if (key === 'maintainAspectRatio' && value && preview) {
         const aspectRatio = preview.originalWidth / preview.originalHeight;
@@ -127,7 +127,7 @@ const ImageImport = ({ onClose }) => {
           updated.width = Math.round(value * aspectRatio);
         }
       }
-      
+
       return updated;
     });
   };
@@ -137,11 +137,7 @@ const ImageImport = ({ onClose }) => {
       <div className="modal-content">
         <div className="modal-header">
           <h3>Import Image as Pattern</h3>
-          <button 
-            className="close-button"
-            onClick={onClose}
-            aria-label="Close import dialog"
-          >
+          <button className="close-button" onClick={onClose} aria-label="Close import dialog">
             <i className="bi bi-x"></i>
           </button>
         </div>
@@ -164,11 +160,7 @@ const ImageImport = ({ onClose }) => {
 
           {preview && (
             <div className="preview-section">
-              <img 
-                src={preview.src} 
-                alt="Preview" 
-                className="image-preview"
-              />
+              <img src={preview.src} alt="Preview" className="image-preview" />
               <div className="original-dimensions">
                 Original: {preview.originalWidth} × {preview.originalHeight}px
               </div>
@@ -177,7 +169,7 @@ const ImageImport = ({ onClose }) => {
 
           <div className="settings-section">
             <h4>Import Settings</h4>
-            
+
             <div className="setting-group">
               <label htmlFor="pattern-width">Pattern Width</label>
               <input
@@ -240,14 +232,10 @@ const ImageImport = ({ onClose }) => {
         </div>
 
         <div className="modal-footer">
-          <button 
-            className="btn-secondary"
-            onClick={onClose}
-            disabled={isProcessing}
-          >
+          <button className="btn-secondary" onClick={onClose} disabled={isProcessing}>
             Cancel
           </button>
-          <button 
+          <button
             className="btn-primary"
             onClick={handleImport}
             disabled={!preview || isProcessing}
@@ -268,7 +256,7 @@ const ImageImport = ({ onClose }) => {
 };
 
 ImageImport.propTypes = {
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 };
 
 export default ImageImport;

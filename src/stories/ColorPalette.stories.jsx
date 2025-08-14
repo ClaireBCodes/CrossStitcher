@@ -26,14 +26,14 @@ export default {
     onSelectColor: { action: 'color selected' },
   },
   render: (args) => {
-    const {selectedColor, ...rest} = args;
+    const { selectedColor, ...rest } = args;
 
     return (
       <GridProvider initialSelectedColour={selectedColor}>
         <ColorPalette {...rest} />
       </GridProvider>
-    )
-  }
+    );
+  },
 };
 
 // Default state with no selection
@@ -41,7 +41,7 @@ export const Default = {
   args: {
     colors: mockDmcColors,
     selectedColor: null,
-  }
+  },
 };
 
 // With a color selected
@@ -62,24 +62,21 @@ export const EmptyState = {
 
 // With search results
 export const SearchResults = () => {
-    // Mock a component that has the search term pre-applied
+  // Mock a component that has the search term pre-applied
   const [searchTerm, setSearchTerm] = React.useState('blue');
-  
+
   // Filter colors that match the search term
-  const filteredColors = mockDmcColors.filter(color => 
-    color.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    color.floss.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredColors = mockDmcColors.filter(
+    (color) =>
+      color.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      color.floss.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
+
   return (
     <GridProvider>
       <div style={{ width: '300px' }}>
         <h3>Searching for: "{searchTerm}"</h3>
-        <ColorPalette 
-          colors={filteredColors}
-          selectedColor={null}
-          onSelectColor={() => {}}
-        />
+        <ColorPalette colors={filteredColors} selectedColor={null} onSelectColor={() => {}} />
         <button onClick={() => setSearchTerm('')} style={{ marginTop: '10px' }}>
           Clear Search
         </button>
@@ -92,7 +89,15 @@ export const SearchResults = () => {
 export const ResponsiveView = {
   render: (args) => (
     <GridProvider>
-      <div style={{ width: '100%', maxWidth: '800px', resize: 'horizontal', overflow: 'auto', border: '1px dashed gray' }}>
+      <div
+        style={{
+          width: '100%',
+          maxWidth: '800px',
+          resize: 'horizontal',
+          overflow: 'auto',
+          border: '1px dashed gray',
+        }}
+      >
         <p>Resize this container to see how the component responds:</p>
         <ColorPalette {...args} />
       </div>
@@ -103,4 +108,3 @@ export const ResponsiveView = {
     selectedColor: null,
   },
 };
-

@@ -307,18 +307,18 @@
   font-weight: 600;
 }
 
-.settings-controls input[type="color"] {
+.settings-controls input[type='color'] {
   background-color: #404040;
   border-color: #5a5a5a;
   cursor: pointer;
   height: 32px;
 }
 
-.settings-controls input[type="color"]::-webkit-color-swatch-wrapper {
+.settings-controls input[type='color']::-webkit-color-swatch-wrapper {
   padding: 2px;
 }
 
-.settings-controls input[type="color"]::-webkit-color-swatch {
+.settings-controls input[type='color']::-webkit-color-swatch {
   border: 1px solid #5a5a5a;
   border-radius: 2px;
 }
@@ -334,7 +334,7 @@
   .sidebar {
     width: 200px;
   }
-  
+
   .canvas-container {
     width: calc(100% - 20px);
     height: calc(100% - 20px);

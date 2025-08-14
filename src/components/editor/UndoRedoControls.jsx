@@ -4,11 +4,11 @@ import { GridContext } from '../GridContext';
 
 const UndoRedoControls = () => {
   const { undo, redo, canUndo, canRedo } = useContext(GridContext);
-  
+
   return (
     <div className="edit-controls">
       <Button
-        variant={canUndo ? "outline-secondary" : "outline-dark"}
+        variant={canUndo ? 'outline-secondary' : 'outline-dark'}
         size="sm"
         className="edit-icon-btn"
         onClick={undo}
@@ -18,9 +18,9 @@ const UndoRedoControls = () => {
       >
         <i className="bi bi-arrow-counterclockwise"></i>
       </Button>
-      
+
       <Button
-        variant={canRedo ? "outline-secondary" : "outline-dark"}
+        variant={canRedo ? 'outline-secondary' : 'outline-dark'}
         size="sm"
         className="edit-icon-btn"
         onClick={redo}

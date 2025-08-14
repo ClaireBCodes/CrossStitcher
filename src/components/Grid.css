@@ -33,9 +33,7 @@
   transform: translate(-50%, -50%);
   width: 80%;
   height: 80%;
-  clip-path: polygon(
-    0% 50%, 50% 0%, 100% 50%, 50% 100%
-  ); /* X shape */
+  clip-path: polygon(0% 50%, 50% 0%, 100% 50%, 50% 100%); /* X shape */
 }
 
 /* Add grid lines every 10 cells for better visibility */

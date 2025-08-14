@@ -15,10 +15,10 @@ export class ImageProcessor {
   async processImage(file, gridWidth, gridHeight) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      
+
       reader.onload = (e) => {
         const img = new Image();
-        
+
         img.onload = () => {
           try {
             const pattern = this.imageToPattern(img, gridWidth, gridHeight);
@@ -27,11 +27,11 @@ export class ImageProcessor {
             reject(error);
           }
         };
-        
+
         img.onerror = () => reject(new Error('Failed to load image'));
         img.src = e.target.result;
       };
-      
+
       reader.onerror = () => reject(new Error('Failed to read file'));
       reader.readAsDataURL(file);
     });
@@ -44,21 +44,21 @@ export class ImageProcessor {
     // Create canvas for image processing
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    
+
     canvas.width = gridWidth;
     canvas.height = gridHeight;
-    
+
     // Draw and resize image
     ctx.drawImage(img, 0, 0, gridWidth, gridHeight);
-    
+
     // Get pixel data
     const imageData = ctx.getImageData(0, 0, gridWidth, gridHeight);
     const pixels = imageData.data;
-    
+
     // Build color palette from image
     const colorMap = this.extractColors(pixels);
     const palette = this.reduceColors(colorMap);
-    
+
     // Create pattern grid
     const grid = [];
     for (let y = 0; y < gridHeight; y++) {
@@ -69,7 +69,7 @@ export class ImageProcessor {
         const g = pixels[idx + 1];
         const b = pixels[idx + 2];
         const a = pixels[idx + 3];
-        
+
         if (a < 128) {
           // Transparent pixel
           row.push(null);
@@ -81,7 +81,7 @@ export class ImageProcessor {
       }
       grid.push(row);
     }
-    
+
     return { grid, palette };
   }
 
@@ -90,19 +90,20 @@ export class ImageProcessor {
    */
   extractColors(pixels) {
     const colorMap = new Map();
-    
+
     for (let i = 0; i < pixels.length; i += 4) {
       const r = pixels[i];
       const g = pixels[i + 1];
       const b = pixels[i + 2];
       const a = pixels[i + 3];
-      
-      if (a >= 128) { // Ignore transparent pixels
+
+      if (a >= 128) {
+        // Ignore transparent pixels
         const key = `${r},${g},${b}`;
         colorMap.set(key, (colorMap.get(key) || 0) + 1);
       }
     }
-    
+
     return colorMap;
   }
 
@@ -117,15 +118,15 @@ export class ImageProcessor {
         const [r, g, b] = key.split(',').map(Number);
         return { r, g, b };
       });
-    
+
     // Simple k-means clustering
     const clusters = this.kMeansClustering(colors, Math.min(this.maxColors, colors.length));
-    
+
     // Map clusters to DMC colors
     const dmcPalette = [];
     const usedColors = new Set();
-    
-    clusters.forEach(cluster => {
+
+    clusters.forEach((cluster) => {
       const dmcColor = this.findClosestDMC(cluster.r, cluster.g, cluster.b);
       // Avoid duplicate DMC colors in palette
       if (dmcColor && !usedColors.has(dmcColor.floss)) {
@@ -133,7 +134,7 @@ export class ImageProcessor {
         dmcPalette.push(dmcColor);
       }
     });
-    
+
     return dmcPalette;
   }
 
@@ -142,11 +143,11 @@ export class ImageProcessor {
    */
   kMeansClustering(colors, k) {
     if (colors.length <= k) return colors;
-    
+
     // Initialize centroids randomly
     const centroids = [];
     const used = new Set();
-    
+
     while (centroids.length < k) {
       const idx = Math.floor(Math.random() * colors.length);
       if (!used.has(idx)) {
@@ -154,16 +155,18 @@ export class ImageProcessor {
         centroids.push({ ...colors[idx] });
       }
     }
-    
+
     // Iterate to converge
     for (let iteration = 0; iteration < 10; iteration++) {
       // Assign colors to nearest centroid
-      const clusters = Array(k).fill(null).map(() => []);
-      
-      colors.forEach(color => {
+      const clusters = Array(k)
+        .fill(null)
+        .map(() => []);
+
+      colors.forEach((color) => {
         let minDist = Infinity;
         let bestCluster = 0;
-        
+
         centroids.forEach((centroid, idx) => {
           const dist = this.colorDistance(color, centroid);
           if (dist < minDist) {
@@ -171,28 +174,31 @@ export class ImageProcessor {
             bestCluster = idx;
           }
         });
-        
+
         clusters[bestCluster].push(color);
       });
-      
+
       // Update centroids
       clusters.forEach((cluster, idx) => {
         if (cluster.length > 0) {
-          const avg = cluster.reduce((acc, color) => ({
-            r: acc.r + color.r,
-            g: acc.g + color.g,
-            b: acc.b + color.b
-          }), { r: 0, g: 0, b: 0 });
-          
+          const avg = cluster.reduce(
+            (acc, color) => ({
+              r: acc.r + color.r,
+              g: acc.g + color.g,
+              b: acc.b + color.b,
+            }),
+            { r: 0, g: 0, b: 0 }
+          );
+
           centroids[idx] = {
             r: Math.round(avg.r / cluster.length),
             g: Math.round(avg.g / cluster.length),
-            b: Math.round(avg.b / cluster.length)
+            b: Math.round(avg.b / cluster.length),
           };
         }
       });
     }
-    
+
     return centroids;
   }
 
@@ -203,28 +209,25 @@ export class ImageProcessor {
     const searchColors = limitToPalette || this.dmcColors;
     let minDistance = Infinity;
     let closestColor = null;
-    
-    searchColors.forEach(dmc => {
+
+    searchColors.forEach((dmc) => {
       // Handle both DMC colors and simple RGB objects
       const dmcR = dmc.red !== undefined ? dmc.red : dmc.r;
       const dmcG = dmc.green !== undefined ? dmc.green : dmc.g;
       const dmcB = dmc.blue !== undefined ? dmc.blue : dmc.b;
-      
+
       if (dmcR === undefined || dmcG === undefined || dmcB === undefined) {
         return; // Skip invalid colors
       }
-      
-      const distance = this.colorDistance(
-        { r, g, b },
-        { r: dmcR, g: dmcG, b: dmcB }
-      );
-      
+
+      const distance = this.colorDistance({ r, g, b }, { r: dmcR, g: dmcG, b: dmcB });
+
       if (distance < minDistance) {
         minDistance = distance;
         closestColor = dmc;
       }
     });
-    
+
     return closestColor;
   }
 
@@ -236,16 +239,12 @@ export class ImageProcessor {
     const rWeight = 2;
     const gWeight = 4;
     const bWeight = 1;
-    
+
     const dr = c1.r - c2.r;
     const dg = c1.g - c2.g;
     const db = c1.b - c2.b;
-    
-    return Math.sqrt(
-      rWeight * dr * dr + 
-      gWeight * dg * dg + 
-      bWeight * db * db
-    );
+
+    return Math.sqrt(rWeight * dr * dr + gWeight * dg * dg + bWeight * db * db);
   }
 }
 

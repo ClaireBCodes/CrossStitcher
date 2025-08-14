@@ -5,14 +5,8 @@ import { createDrawingTool } from '../utils/drawingTools';
 import { GRID_CONFIG } from '../constants/editor';
 
 const Grid = () => {
-  const { 
-    grid, 
-    setGrid,
-    selectedTool, 
-    selectedColour,
-    zoomLevel, 
-    canvasBackground 
-  } = useContext(GridContext);
+  const { grid, setGrid, selectedTool, selectedColour, zoomLevel, canvasBackground } =
+    useContext(GridContext);
 
   // Create drawing tool instance
   const drawingTool = useMemo(() => {
@@ -23,12 +17,12 @@ const Grid = () => {
 
   return (
     <div className="grid-wrapper">
-      <div 
+      <div
         className="cross-stitch-grid"
-        style={{ 
-          transform: `scale(${zoomLevel})`, 
+        style={{
+          transform: `scale(${zoomLevel})`,
           transformOrigin: 'center',
-          backgroundColor: canvasBackground 
+          backgroundColor: canvasBackground,
         }}
         onMouseLeave={() => drawingTool.onMouseUp()}
         role="application"
@@ -43,7 +37,7 @@ const Grid = () => {
                 style={{
                   backgroundColor: cell ? `#${cell.hex}` : canvasBackground,
                   width: `${cellSize}px`,
-                  height: `${cellSize}px`
+                  height: `${cellSize}px`,
                 }}
                 onMouseDown={() => drawingTool.onMouseDown(rowIndex, colIndex)}
                 onMouseEnter={() => drawingTool.onMouseEnter(rowIndex, colIndex)}

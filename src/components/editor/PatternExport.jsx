@@ -11,22 +11,22 @@ const PatternExport = ({ onClose }) => {
     filename: `pattern-${new Date().toISOString().slice(0, 10)}`,
     includeGrid: true,
     includeLegend: true,
-    cellSize: 20
+    cellSize: 20,
   });
   const [isExporting, setIsExporting] = useState(false);
 
   const handleExport = async () => {
     setIsExporting(true);
-    
+
     const exporter = new PatternExporter();
-    
+
     // Apply settings
     if (exportSettings.cellSize) {
       exporter.cellSize = exportSettings.cellSize;
     }
-    
+
     const filename = `${exportSettings.filename}.${exportSettings.format}`;
-    
+
     try {
       switch (exportSettings.format) {
         case 'png':
@@ -45,7 +45,7 @@ const PatternExport = ({ onClose }) => {
         default:
           console.error('Unknown export format:', exportSettings.format);
       }
-      
+
       // Close modal after successful export
       setTimeout(() => {
         onClose();
@@ -59,9 +59,9 @@ const PatternExport = ({ onClose }) => {
   };
 
   const handleSettingChange = (key, value) => {
-    setExportSettings(prev => ({
+    setExportSettings((prev) => ({
       ...prev,
-      [key]: value
+      [key]: value,
     }));
   };
 
@@ -69,7 +69,7 @@ const PatternExport = ({ onClose }) => {
     png: 'Image file suitable for viewing and printing',
     pdf: 'High-resolution image for printing (PDF coming soon)',
     json: 'Pattern data file that can be imported back',
-    csv: 'Spreadsheet format for Excel or Google Sheets'
+    csv: 'Spreadsheet format for Excel or Google Sheets',
   };
 
   return (
@@ -77,11 +77,7 @@ const PatternExport = ({ onClose }) => {
       <div className="modal-content">
         <div className="modal-header">
           <h3>Export Pattern</h3>
-          <button 
-            className="close-button"
-            onClick={onClose}
-            aria-label="Close export dialog"
-          >
+          <button className="close-button" onClick={onClose} aria-label="Close export dialog">
             <i className="bi bi-x"></i>
           </button>
         </div>
@@ -90,7 +86,7 @@ const PatternExport = ({ onClose }) => {
           <div className="export-section">
             <h4>Export Format</h4>
             <div className="format-options">
-              {['png', 'pdf', 'json', 'csv'].map(format => (
+              {['png', 'pdf', 'json', 'csv'].map((format) => (
                 <label key={format} className="format-option">
                   <input
                     type="radio"
@@ -150,35 +146,26 @@ const PatternExport = ({ onClose }) => {
             <div className="preview-info">
               <i className="bi bi-palette"></i>
               <div>
-                <strong>Colors Used:</strong> {
-                  (() => {
-                    const colors = new Set();
-                    grid.forEach(row => {
-                      row.forEach(cell => {
-                        if (cell) colors.add(cell.floss);
-                      });
+                <strong>Colors Used:</strong>{' '}
+                {(() => {
+                  const colors = new Set();
+                  grid.forEach((row) => {
+                    row.forEach((cell) => {
+                      if (cell) colors.add(cell.floss);
                     });
-                    return colors.size;
-                  })()
-                }
+                  });
+                  return colors.size;
+                })()}
               </div>
             </div>
           </div>
         </div>
 
         <div className="modal-footer">
-          <button 
-            className="btn-secondary"
-            onClick={onClose}
-            disabled={isExporting}
-          >
+          <button className="btn-secondary" onClick={onClose} disabled={isExporting}>
             Cancel
           </button>
-          <button 
-            className="btn-primary"
-            onClick={handleExport}
-            disabled={isExporting}
-          >
+          <button className="btn-primary" onClick={handleExport} disabled={isExporting}>
             {isExporting ? (
               <>
                 <span className="spinner"></span>
@@ -198,7 +185,7 @@ const PatternExport = ({ onClose }) => {
 };
 
 PatternExport.propTypes = {
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 };
 
 export default PatternExport;
