@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 import Grid from './Grid';
 import ColorPalette from './ColorPalette';
 import Toolbar from './Toolbar';
@@ -25,17 +26,6 @@ const CrossStitchEditor = ({ colours = [] }) => {
     setGrid(Array(currentHeight).fill().map(() => Array(currentWidth).fill(null)));
   };
 
-  // Legacy save function for Toolbar - will be removed when Toolbar is refactored
-  const savePattern = () => {
-    const patternJson = JSON.stringify(grid);
-    const blob = new Blob([patternJson], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `cross-stitch-pattern-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
 
   return (
     <div className="cross-stitch-editor">
@@ -51,7 +41,6 @@ const CrossStitchEditor = ({ colours = [] }) => {
               <Accordion.Body>
                 <Toolbar
                   clearGrid={clearGrid}
-                  savePattern={savePattern}
                 />
                 <UndoRedoControls />
                 <ZoomControls />
@@ -102,6 +91,18 @@ const CrossStitchEditor = ({ colours = [] }) => {
       )}
     </div>
   );
+};
+
+CrossStitchEditor.propTypes = {
+  colours: PropTypes.arrayOf(PropTypes.shape({
+    floss: PropTypes.string.isRequired,
+    hex: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    description: PropTypes.string,
+    red: PropTypes.number,
+    green: PropTypes.number,
+    blue: PropTypes.number
+  }))
 };
 
 export default CrossStitchEditor;

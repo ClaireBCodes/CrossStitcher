@@ -1,9 +1,10 @@
 import Button from "react-bootstrap/Button";
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import './Toolbar.css';
 import { GridContext } from './GridContext';
 
-const Toolbar = ({ clearGrid, savePattern }) => {
+const Toolbar = ({ clearGrid }) => {
   const { selectedTool, setSelectedTool} = useContext(GridContext);
 
   return (
@@ -49,6 +50,10 @@ const Toolbar = ({ clearGrid, savePattern }) => {
       </div>
     </div>
   );
+};
+
+Toolbar.propTypes = {
+  clearGrid: PropTypes.func.isRequired
 };
 
 export default Toolbar;
