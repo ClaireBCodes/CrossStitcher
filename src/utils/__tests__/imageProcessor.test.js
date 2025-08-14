@@ -63,7 +63,7 @@ describe('ImageProcessor', () => {
   describe('findClosestDMC', () => {
     it('should find exact match when available', () => {
       const firstColor = dmcColors[0];
-      const result = processor.findClosestDMC(firstColor.red, firstColor.green, firstColor.blue);
+      const result = processor.findClosestDMC(firstColor.r, firstColor.g, firstColor.b);
 
       expect(result.floss).toBe(firstColor.floss);
     });

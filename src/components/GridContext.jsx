@@ -156,4 +156,4 @@ const GridProvider = ({
   );
 };
 
-export { GridContext, GridProvider, blankGrid };
+export { GridContext, GridProvider };

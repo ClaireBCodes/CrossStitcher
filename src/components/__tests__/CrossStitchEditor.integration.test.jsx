@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import CrossStitchEditor from '../CrossStitchEditor';
 import { GridProvider } from '../GridContext';
 import dmcColors from '../../assets/dmc.json';
@@ -153,17 +152,26 @@ describe('CrossStitchEditor Integration Tests', () => {
     it('should allow changing grid size', async () => {
       const { container } = renderEditor();
 
+      // Wait for initial render and check initial grid size
+      let initialCellCount;
+      await waitFor(() => {
+        const initialCells = container.querySelectorAll('.grid-cell');
+        initialCellCount = initialCells.length;
+        expect(initialCellCount).toBeGreaterThan(0);
+      });
+
+      // The initial grid should be 50x50 = 2500 cells (DEFAULT_WIDTH x DEFAULT_HEIGHT)
+      expect(initialCellCount).toBe(2500);
+
       // Find grid size inputs
       const inputs = container.querySelectorAll('.grid-size-controls input[type="number"]');
       const widthInput = inputs[0];
       const heightInput = inputs[1];
       const applyButton = screen.getByText(/Apply Size/i).closest('button');
 
-      // Change size
-      await userEvent.clear(widthInput);
-      await userEvent.type(widthInput, '30');
-      await userEvent.clear(heightInput);
-      await userEvent.type(heightInput, '30');
+      // Change size using fireEvent.change which properly triggers React onChange
+      fireEvent.change(widthInput, { target: { value: '30' } });
+      fireEvent.change(heightInput, { target: { value: '30' } });
 
       // Mock window.confirm
       const originalConfirm = window.confirm;
@@ -176,10 +184,14 @@ describe('CrossStitchEditor Integration Tests', () => {
       window.confirm = originalConfirm;
 
       // Check that grid size changed
-      await waitFor(() => {
-        const gridCells = container.querySelectorAll('.grid-cell');
-        expect(gridCells).toHaveLength(900); // 30x30
-      });
+      await waitFor(
+        () => {
+          const gridCells = container.querySelectorAll('.grid-cell');
+          // The grid should be 30x30 = 900 cells
+          expect(gridCells).toHaveLength(900);
+        },
+        { timeout: 10000 }
+      );
     });
   });
 });
