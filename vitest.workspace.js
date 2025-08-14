@@ -10,7 +10,7 @@ const dirname =
 
 // More info at: https://storybook.js.org/docs/writing-tests/test-addon
 export default defineWorkspace([
-  'vite.config.js',
+  'vitest.config.js',
   {
     extends: 'vite.config.js',
     plugins: [
@@ -27,6 +27,7 @@ export default defineWorkspace([
         provider: 'playwright'
       },
       setupFiles: ['.storybook/vitest.setup.js'],
+      include: ['src/stories/**/*.stories.{js,jsx,ts,tsx}'],
     },
   },
 ]);
