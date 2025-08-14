@@ -39,3 +39,4 @@ Feature Stories border
 Advanced
 - As a user I want to be able to generate a colour gradient over the text
 - As a user I want to be able to have the text and border respect each others placement
+
