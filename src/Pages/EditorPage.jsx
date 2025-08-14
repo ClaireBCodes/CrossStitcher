@@ -1,6 +1,10 @@
-import { Link } from 'react-router-dom';
-import { MainBody } from '../components/MainBody';
+import CrossStitchEditor from '../components/CrossStitchEditor';
+import { Container } from 'react-bootstrap';
 
 export function EditorPage() {
-  return <MainBody />;
+  return (
+    <Container>
+      <CrossStitchEditor />
+    </Container>
+  );
 }

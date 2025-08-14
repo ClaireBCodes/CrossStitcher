@@ -1,5 +1,5 @@
 import { DMCGrid } from './DMCGrid';
-import dmcData from './assets/dmc.json';
+import dmcData from '../assets/dmc.json';
 
 export default {
   title: 'Components/DMC/Grid',
