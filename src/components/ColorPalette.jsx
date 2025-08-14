@@ -3,14 +3,14 @@ import './ColorPalette.css';
 import { useContext } from 'react';
 import { GridContext } from './GridContext';
 
-const ColorPalette = ({ colors }) => {
+const ColorPalette = ({ colors = [] }) => {
   const { selectedColour, setSelectedColour } = useContext(GridContext);
   const [searchTerm, setSearchTerm] = useState('');
   
   // Filter colors based on search term
   const filteredColors = colors.filter(color => 
-    color.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    color.floss.toLowerCase().includes(searchTerm.toLowerCase())
+    (color.name?.toLowerCase() || color.description?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+    (color.floss?.toLowerCase() || '').includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -34,7 +34,7 @@ const ColorPalette = ({ colors }) => {
           />
           <div className="color-details">
             <div>DMC {selectedColour.floss}</div>
-            <div>{selectedColour.name}</div>
+            <div>{selectedColour.name || selectedColour.description}</div>
           </div>
         </div>
       )}
@@ -45,7 +45,7 @@ const ColorPalette = ({ colors }) => {
             key={color.floss}
             className={`color-item ${selectedColour?.floss === color.floss ? 'selected' : ''}`}
             onClick={() => setSelectedColour(color)}
-            title={`DMC ${color.floss} - ${color.name}`}
+            title={`DMC ${color.floss} - ${color.name || color.description}`}
           >
             <div 
               className="color-swatch" 
@@ -57,7 +57,7 @@ const ColorPalette = ({ colors }) => {
       </div>
       
       {filteredColors.length === 0 && (
-        <div className="no-colors-found">No colors match your search</div>
+        <div className="no-colors-found">No colors found</div>
       )}
     </div>
   );
