@@ -1,17 +1,20 @@
 import './Grid.css';
-import { useContext, useMemo } from 'react';
+import { useContext } from 'react';
 import { GridContext } from './GridContext';
-import { createDrawingTool } from '../utils/drawingTools';
+import useDrawingTool from '../hooks/useDrawingTool';
 import { GRID_CONFIG } from '../constants/editor';
 
 const Grid = () => {
   const { grid, setGrid, selectedTool, selectedColour, zoomLevel, canvasBackground } =
     useContext(GridContext);
 
-  // Create drawing tool instance
-  const drawingTool = useMemo(() => {
-    return createDrawingTool(selectedTool, { grid, setGrid, selectedColour });
-  }, [selectedTool, grid, setGrid, selectedColour]);
+  // Use the drawing tool hook for proper state management
+  const { onMouseDown, onMouseUp, onMouseEnter, onClick } = useDrawingTool(
+    selectedTool,
+    grid,
+    setGrid,
+    selectedColour
+  );
 
   const cellSize = Math.round(GRID_CONFIG.BASE_CELL_SIZE * zoomLevel);
 
@@ -24,7 +27,7 @@ const Grid = () => {
           transformOrigin: 'center',
           backgroundColor: canvasBackground,
         }}
-        onMouseLeave={() => drawingTool.onMouseUp()}
+        onMouseLeave={onMouseUp}
         role="application"
         aria-label="Cross-stitch pattern grid"
       >
@@ -39,10 +42,10 @@ const Grid = () => {
                   width: `${cellSize}px`,
                   height: `${cellSize}px`,
                 }}
-                onMouseDown={() => drawingTool.onMouseDown(rowIndex, colIndex)}
-                onMouseEnter={() => drawingTool.onMouseEnter(rowIndex, colIndex)}
-                onMouseUp={() => drawingTool.onMouseUp()}
-                onClick={() => drawingTool.onClick(rowIndex, colIndex)}
+                onMouseDown={() => onMouseDown(rowIndex, colIndex)}
+                onMouseEnter={() => onMouseEnter(rowIndex, colIndex)}
+                onMouseUp={onMouseUp}
+                onClick={() => onClick(rowIndex, colIndex)}
                 role="gridcell"
                 aria-label={`Cell ${rowIndex},${colIndex}${cell ? ` filled with ${cell.name || cell.description || 'color'}` : ''}`}
                 tabIndex={-1}

@@ -91,9 +91,10 @@ describe('Grid Component', () => {
     const firstCell = container.querySelectorAll('.grid-cell')[0];
     fireEvent.click(firstCell);
 
-    // The click handler should be called (through DrawingTools)
-    // In a real test, we'd need to mock DrawingTools or test the integration
-    expect(firstCell).toBeDefined();
+    // setGrid should be called to update the grid
+    expect(mockSetGrid).toHaveBeenCalledTimes(1);
+    const updatedGrid = mockSetGrid.mock.calls[0][0];
+    expect(updatedGrid[0][0]).toEqual({ hex: 'ffffff', name: 'White' });
   });
 
   it('renders empty grid correctly', () => {
@@ -111,25 +112,100 @@ describe('Grid Component', () => {
     });
   });
 
-  it('handles mouse events for drawing', () => {
-    const { container } = renderGrid();
+  it('handles click-and-drag drawing with pencil tool', () => {
+    const { container } = renderGrid({
+      selectedTool: 'pencil',
+      selectedColour: { hex: 'ffffff', name: 'White' },
+    });
     const cells = container.querySelectorAll('.grid-cell');
 
-    // Test mouse down
+    // Start drawing - mouse down on first cell
     fireEvent.mouseDown(cells[0]);
+    expect(mockSetGrid).toHaveBeenCalledTimes(1);
+    expect(mockSetGrid.mock.calls[0][0][0][0]).toEqual({ hex: 'ffffff', name: 'White' });
 
-    // Test mouse enter (for drag drawing)
+    // Continue drawing - drag to second cell
     fireEvent.mouseEnter(cells[1]);
+    expect(mockSetGrid).toHaveBeenCalledTimes(2);
+    expect(mockSetGrid.mock.calls[1][0][0][1]).toEqual({ hex: 'ffffff', name: 'White' });
 
-    // Test mouse up
+    // Continue drawing - drag to third cell
+    fireEvent.mouseEnter(cells[2]);
+    expect(mockSetGrid).toHaveBeenCalledTimes(3);
+    expect(mockSetGrid.mock.calls[2][0][0][2]).toEqual({ hex: 'ffffff', name: 'White' });
+
+    // Stop drawing
+    fireEvent.mouseUp(cells[2]);
+
+    // Should not draw when moving without mouse down
+    mockSetGrid.mockClear();
+    fireEvent.mouseEnter(cells[3]);
+    expect(mockSetGrid).not.toHaveBeenCalled();
+  });
+
+  it('handles click-and-drag erasing with eraser tool', () => {
+    const filledGrid = [
+      [
+        { hex: 'ff0000', name: 'Red' },
+        { hex: 'ff0000', name: 'Red' },
+        { hex: 'ff0000', name: 'Red' },
+      ],
+      [
+        { hex: 'ff0000', name: 'Red' },
+        { hex: 'ff0000', name: 'Red' },
+        { hex: 'ff0000', name: 'Red' },
+      ],
+      [
+        { hex: 'ff0000', name: 'Red' },
+        { hex: 'ff0000', name: 'Red' },
+        { hex: 'ff0000', name: 'Red' },
+      ],
+    ];
+
+    const { container } = renderGrid({
+      grid: filledGrid,
+      selectedTool: 'eraser',
+    });
+    const cells = container.querySelectorAll('.grid-cell');
+
+    // Start erasing - mouse down on first cell
+    fireEvent.mouseDown(cells[0]);
+    expect(mockSetGrid).toHaveBeenCalledTimes(1);
+    expect(mockSetGrid.mock.calls[0][0][0][0]).toBeNull();
+
+    // Continue erasing - drag to second cell
+    fireEvent.mouseEnter(cells[1]);
+    expect(mockSetGrid).toHaveBeenCalledTimes(2);
+    expect(mockSetGrid.mock.calls[1][0][0][1]).toBeNull();
+
+    // Stop erasing
     fireEvent.mouseUp(cells[1]);
 
-    // Test mouse leave on grid (should stop drawing)
+    // Should not erase when moving without mouse down
+    mockSetGrid.mockClear();
+    fireEvent.mouseEnter(cells[2]);
+    expect(mockSetGrid).not.toHaveBeenCalled();
+  });
+
+  it('stops drawing when mouse leaves grid', () => {
+    const { container } = renderGrid({
+      selectedTool: 'pencil',
+      selectedColour: { hex: 'ffffff', name: 'White' },
+    });
+    const cells = container.querySelectorAll('.grid-cell');
     const grid = container.querySelector('.cross-stitch-grid');
+
+    // Start drawing
+    fireEvent.mouseDown(cells[0]);
+    expect(mockSetGrid).toHaveBeenCalledTimes(1);
+
+    // Leave grid (should stop drawing)
     fireEvent.mouseLeave(grid);
 
-    // Events should be handled (actual drawing logic is in DrawingTools)
-    expect(cells[0]).toBeDefined();
+    // Re-enter and move to another cell - should not draw
+    mockSetGrid.mockClear();
+    fireEvent.mouseEnter(cells[1]);
+    expect(mockSetGrid).not.toHaveBeenCalled();
   });
 
   it('calculates cell size based on zoom level', () => {
