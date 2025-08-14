@@ -1,8 +1,9 @@
 .cross-stitch-grid {
   display: inline-block;
-  border: 1px solid #ddd;
-  background: #f5f5f5;
+  border: 1px solid #666;
   cursor: crosshair;
+  margin: auto;
+  padding: 20px;
 }
 
 .grid-row {
@@ -10,15 +11,17 @@
 }
 
 .grid-cell {
-  width: 15px;
-  height: 15px;
-  border: 1px solid #ddd;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #e0e0e0;
   box-sizing: border-box;
   position: relative;
+  transition: all 0.1s ease;
 }
 
 .grid-cell:hover {
-  outline: 1px solid #666;
+  outline: 2px solid #007acc;
+  outline-offset: -1px;
   z-index: 1;
 }
 
@@ -37,9 +40,20 @@
 
 /* Add grid lines every 10 cells for better visibility */
 .grid-row:nth-child(10n) .grid-cell {
-  border-bottom: 1px solid #999;
+  border-bottom: 2px solid #999;
 }
 
 .grid-cell:nth-child(10n) {
-  border-right: 1px solid #999;
+  border-right: 2px solid #999;
+}
+
+/* Grid centering in container */
+.grid-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
 }
