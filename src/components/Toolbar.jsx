@@ -8,29 +8,31 @@ const Toolbar = ({ clearGrid, savePattern }) => {
 
   return (
     <div className="toolbar">
-      <h3>Tools</h3>
-      <div className="tool-buttons">
+      <div className="tool-buttons-grid">
         <Button
-          variant="primary"
-          className={`tool-button ${selectedTool === 'pencil' ? 'active' : ''}`}
+          variant={selectedTool === 'pencil' ? 'primary' : 'outline-secondary'}
+          size="sm"
+          className="tool-icon-btn"
           onClick={() => setSelectedTool("pencil")}
-          title="Pencil (Draw)"
+          title="Draw (Pencil Tool)"
         >
-          ✏️ Draw
+          <i className="bi bi-pencil-fill"></i>
         </Button>
 
         <Button
-          variant="primary"
-          className={`tool-button ${selectedTool === "eraser" ? "active" : ""}`}
+          variant={selectedTool === 'eraser' ? 'primary' : 'outline-secondary'}
+          size="sm"
+          className="tool-icon-btn"
           onClick={() => setSelectedTool("eraser")}
-          title="Eraser"
+          title="Erase"
         >
-          🧽 Erase
+          <i className="bi bi-eraser-fill"></i>
         </Button>
 
         <Button
-          variant="danger"
-          className="tool-button"
+          variant="outline-secondary"
+          size="sm"
+          className="tool-icon-btn"
           onClick={() => {
             if (
               window.confirm(
@@ -40,9 +42,9 @@ const Toolbar = ({ clearGrid, savePattern }) => {
               clearGrid();
             }
           }}
-          title="Clear entire pattern"
+          title="Clear All"
         >
-          🗑️ Clear All
+          <i className="bi bi-trash3-fill"></i>
         </Button>
       </div>
     </div>
