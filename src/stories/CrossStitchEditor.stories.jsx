@@ -17,8 +17,7 @@ const mockDmcColors = [
 ];
 
 // Mock the fetch call that loads DMC colors without using Jest
-const originalFetch = window.fetch;
-window.fetch = (url) => {
+window.fetch = () => {
   return Promise.resolve({
     json: () => Promise.resolve(mockDmcColors),
   });
@@ -28,12 +27,8 @@ export default {
   title: 'CrossStitcher/CrossStitchEditor',
   component: CrossStitchEditor,
   parameters: {
-    layout: 'fullscreen',
     // Disable default padding to show the editor at full size
-    layout: {
-      fullscreen: true,
-      padding: 0,
-    },
+    layout: 'fullscreen',
     // This will make the stories not interfere with each other's state
     componentToggle: { disable: true },
   },
