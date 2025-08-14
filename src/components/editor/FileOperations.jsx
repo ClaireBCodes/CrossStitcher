@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import { GridContext } from '../GridContext';
 
 const FileOperations = () => {
-  const { grid, setGrid } = useContext(GridContext);
+  const { grid, setGrid, changeGridSize } = useContext(GridContext);
 
   // Save pattern as JSON
   const savePattern = () => {
@@ -28,7 +28,29 @@ const FileOperations = () => {
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const loadedGrid = JSON.parse(e.target.result);
+        const loadedData = JSON.parse(e.target.result);
+        
+        // Handle both old format (just grid) and new format (with metadata)
+        let loadedGrid;
+        if (Array.isArray(loadedData)) {
+          // Old format - just the grid
+          loadedGrid = loadedData;
+        } else if (loadedData.grid) {
+          // New format with metadata
+          loadedGrid = loadedData.grid;
+          
+          // Resize grid if dimensions are provided
+          if (loadedData.dimensions) {
+            const { width, height } = loadedData.dimensions;
+            if (width && height) {
+              changeGridSize(width, height);
+            }
+          }
+        } else {
+          alert("Invalid pattern file format");
+          return;
+        }
+        
         // Validate that it's a valid grid structure
         if (Array.isArray(loadedGrid) && loadedGrid.every(row => Array.isArray(row))) {
           setGrid(loadedGrid);
@@ -41,6 +63,9 @@ const FileOperations = () => {
       }
     };
     reader.readAsText(file);
+    
+    // Reset the input so the same file can be loaded again
+    event.target.value = '';
   };
 
   return (
