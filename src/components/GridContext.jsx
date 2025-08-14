@@ -1,15 +1,15 @@
-import React, { useEffect, useCallback } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import useUndoRedo from '../hooks/useUndoRedo';
+import { GRID_CONFIG, ZOOM_CONFIG, TOOLS } from '../constants/editor';
 
 const GridContext = React.createContext();
 
-const blankGrid = (x_size, y_size) => {
+const blankGrid = (x_size = GRID_CONFIG.DEFAULT_WIDTH, y_size = GRID_CONFIG.DEFAULT_HEIGHT) => {
   return Array(y_size).fill().map(() => Array(x_size).fill(null));
 }
 
-const GridProvider = ({children, initialSelectedColour = null, initialGrid = null, initialSelectedTool='pencil'}) => {
-  const defaultGrid = initialGrid || blankGrid(50, 50);
+const GridProvider = ({children, initialSelectedColour = null, initialGrid = null, initialSelectedTool = TOOLS.PENCIL}) => {
+  const defaultGrid = initialGrid || blankGrid();
   const {
     state: grid,
     setState: setGridWithHistory,
@@ -22,8 +22,11 @@ const GridProvider = ({children, initialSelectedColour = null, initialGrid = nul
   
   const [selectedColour, setSelectedColour] = useState(initialSelectedColour);
   const [selectedTool, setSelectedTool] = useState(initialSelectedTool);
-  const [gridSize, setGridSize] = useState({ width: 50, height: 50 });
-  const [zoomLevel, setZoomLevel] = useState(1);
+  const [gridSize, setGridSize] = useState({ 
+    width: GRID_CONFIG.DEFAULT_WIDTH, 
+    height: GRID_CONFIG.DEFAULT_HEIGHT 
+  });
+  const [zoomLevel, setZoomLevel] = useState(ZOOM_CONFIG.DEFAULT);
   const [canvasBackground, setCanvasBackground] = useState('#f5f5f5');
   
   // Wrapper for setGrid to maintain compatibility
@@ -55,15 +58,15 @@ const GridProvider = ({children, initialSelectedColour = null, initialGrid = nul
 
   // Zoom functions
   const zoomIn = useCallback(() => {
-    setZoomLevel(prev => Math.min(prev + 0.25, 3));
+    setZoomLevel(prev => Math.min(prev + ZOOM_CONFIG.STEP, ZOOM_CONFIG.MAX));
   }, []);
 
   const zoomOut = useCallback(() => {
-    setZoomLevel(prev => Math.max(prev - 0.25, 0.5));
+    setZoomLevel(prev => Math.max(prev - ZOOM_CONFIG.STEP, ZOOM_CONFIG.MIN));
   }, []);
 
   const resetZoom = useCallback(() => {
-    setZoomLevel(1);
+    setZoomLevel(ZOOM_CONFIG.DEFAULT);
   }, []);
 
   // Keyboard shortcuts
@@ -89,10 +92,10 @@ const GridProvider = ({children, initialSelectedColour = null, initialGrid = nul
       }
       // Tool shortcuts
       else if (e.key === 'p') {
-        setSelectedTool('pencil');
+        setSelectedTool(TOOLS.PENCIL);
       }
       else if (e.key === 'e') {
-        setSelectedTool('eraser');
+        setSelectedTool(TOOLS.ERASER);
       }
       // Zoom shortcuts
       else if ((e.ctrlKey || e.metaKey) && e.key === '=') {

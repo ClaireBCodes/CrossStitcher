@@ -1,30 +1,25 @@
 import './Grid.css';
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { GridContext } from './GridContext';
-import { PencilTool, EraserTool } from './DrawingTools';
-
-const toTool = (tool) => {
-  switch (tool) {
-    case 'pencil':
-      return PencilTool();
-    case 'eraser':
-      return EraserTool();
-    default:
-      throw new Error(`Unknown tool: ${tool}`);
-  }
-}
+import { createDrawingTool } from '../utils/drawingTools';
+import { GRID_CONFIG } from '../constants/editor';
 
 const Grid = () => {
-  const { grid, selectedTool, zoomLevel, canvasBackground } = useContext(GridContext);
+  const { 
+    grid, 
+    setGrid,
+    selectedTool, 
+    selectedColour,
+    zoomLevel, 
+    canvasBackground 
+  } = useContext(GridContext);
 
-  const {
-    onMouseDown,
-    onMouseUp,
-    onClick,
-    onMouseEnter
-  } = toTool(selectedTool);
+  // Create drawing tool instance
+  const drawingTool = useMemo(() => {
+    return createDrawingTool(selectedTool, { grid, setGrid, selectedColour });
+  }, [selectedTool, grid, setGrid, selectedColour]);
 
-  const cellSize = Math.round(18 * zoomLevel); // Base cell size is 18px
+  const cellSize = Math.round(GRID_CONFIG.BASE_CELL_SIZE * zoomLevel);
 
   return (
     <div className="grid-wrapper">
@@ -35,7 +30,9 @@ const Grid = () => {
           transformOrigin: 'center',
           backgroundColor: canvasBackground 
         }}
-        onMouseLeave={onMouseUp} // Stop drawing if mouse leaves grid
+        onMouseLeave={() => drawingTool.onMouseUp()}
+        role="application"
+        aria-label="Cross-stitch pattern grid"
       >
         {grid.map((row, rowIndex) => (
           <div key={rowIndex} className="grid-row">
@@ -48,10 +45,13 @@ const Grid = () => {
                   width: `${cellSize}px`,
                   height: `${cellSize}px`
                 }}
-                onMouseDown={() => onMouseDown(rowIndex, colIndex, grid)}
-                onMouseEnter={() => onMouseEnter(rowIndex, colIndex, grid)}
-                onMouseUp={onMouseUp}
-                onClick={() => onClick(rowIndex, colIndex, grid)}
+                onMouseDown={() => drawingTool.onMouseDown(rowIndex, colIndex)}
+                onMouseEnter={() => drawingTool.onMouseEnter(rowIndex, colIndex)}
+                onMouseUp={() => drawingTool.onMouseUp()}
+                onClick={() => drawingTool.onClick(rowIndex, colIndex)}
+                role="gridcell"
+                aria-label={`Cell ${rowIndex},${colIndex}${cell ? ` filled with ${cell.name || cell.description || 'color'}` : ''}`}
+                tabIndex={-1}
               />
             ))}
           </div>

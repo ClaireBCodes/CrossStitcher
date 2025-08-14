@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 import './ColorPalette.css';
-import { useContext } from 'react';
 import { GridContext } from './GridContext';
 
 const ColorPalette = ({ colors = [] }) => {
@@ -23,6 +23,7 @@ const ColorPalette = ({ colors = [] }) => {
           placeholder="Search colors..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          aria-label="Search colors"
         />
       </div>
       
@@ -31,6 +32,7 @@ const ColorPalette = ({ colors = [] }) => {
           <div 
             className="color-swatch" 
             style={{ backgroundColor: `#${selectedColour.hex}` }}
+            aria-label={`Selected color: ${selectedColour.name || selectedColour.description}`}
           />
           <div className="color-details">
             <div>DMC {selectedColour.floss}</div>
@@ -39,13 +41,22 @@ const ColorPalette = ({ colors = [] }) => {
         </div>
       )}
       
-      <div className="color-list">
+      <div className="color-list" role="list">
         {filteredColors.map(color => (
           <div
             key={color.floss}
             className={`color-item ${selectedColour?.floss === color.floss ? 'selected' : ''}`}
             onClick={() => setSelectedColour(color)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setSelectedColour(color);
+              }
+            }}
             title={`DMC ${color.floss} - ${color.name || color.description}`}
+            role="listitem"
+            tabIndex={0}
+            aria-selected={selectedColour?.floss === color.floss}
           >
             <div 
               className="color-swatch" 
@@ -61,6 +72,18 @@ const ColorPalette = ({ colors = [] }) => {
       )}
     </div>
   );
+};
+
+ColorPalette.propTypes = {
+  colors: PropTypes.arrayOf(PropTypes.shape({
+    floss: PropTypes.string.isRequired,
+    hex: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    description: PropTypes.string,
+    red: PropTypes.number,
+    green: PropTypes.number,
+    blue: PropTypes.number
+  }))
 };
 
 export default ColorPalette;
