@@ -17,12 +17,10 @@ const ColorPalette = ({ colors = [] }) => {
 
   return (
     <div className="color-palette">
-      <h3>DMC Colors</h3>
-
       <div className="color-search">
         <input
           type="text"
-          placeholder="Search colors..."
+          placeholder="Search colours..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           aria-label="Search colors"

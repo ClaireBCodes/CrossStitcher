@@ -18,13 +18,62 @@ const ImageImport = ({ onClose }) => {
   const fileInputRef = useRef(null);
   const imageProcessor = useRef(new ImageProcessor());
 
+  // Handle JSON pattern file loading
+  const handlePatternFileLoad = (file) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const loadedData = JSON.parse(e.target.result);
+
+        // Handle both old format (just grid) and new format (with metadata)
+        let loadedGrid;
+        if (Array.isArray(loadedData)) {
+          // Old format - just the grid
+          loadedGrid = loadedData;
+        } else if (loadedData.grid) {
+          // New format with metadata
+          loadedGrid = loadedData.grid;
+
+          // Resize grid if dimensions are provided
+          if (loadedData.dimensions) {
+            const { width, height } = loadedData.dimensions;
+            if (width && height) {
+              changeGridSize(width, height);
+            }
+          }
+        } else {
+          setError('Invalid pattern file format');
+          return;
+        }
+
+        // Validate that it's a valid grid structure
+        if (Array.isArray(loadedGrid) && loadedGrid.every((row) => Array.isArray(row))) {
+          setGrid(loadedGrid);
+          onClose();
+        } else {
+          setError('Invalid pattern file format');
+        }
+      } catch (error) {
+        console.error('Error parsing pattern file:', error);
+        setError("Failed to load pattern file. Please ensure it's a valid JSON file.");
+      }
+    };
+    reader.readAsText(file);
+  };
+
   const handleFileSelect = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validate file type
+    // Check if it's a JSON pattern file
+    if (file.name.endsWith('.json')) {
+      handlePatternFileLoad(file);
+      return;
+    }
+
+    // Validate image file type
     if (!file.type.startsWith('image/')) {
-      setError('Please select a valid image file');
+      setError('Please select a valid image file or JSON pattern file');
       return;
     }
 
@@ -154,7 +203,7 @@ const ImageImport = ({ onClose }) => {
             />
             <label htmlFor="image-file-input" className="file-input-label">
               <i className="bi bi-upload"></i>
-              {preview ? 'Change Image' : 'Select Image'}
+              {preview ? 'Change File' : 'Select File'}
             </label>
           </div>
 
@@ -167,61 +216,63 @@ const ImageImport = ({ onClose }) => {
             </div>
           )}
 
-          <div className="settings-section">
-            <h4>Import Settings</h4>
+          {preview && (
+            <div className="settings-section">
+              <h4>Import Settings</h4>
 
-            <div className="setting-group">
-              <label htmlFor="pattern-width">Pattern Width</label>
-              <input
-                id="pattern-width"
-                type="number"
-                min="10"
-                max="200"
-                value={importSettings.width}
-                onChange={(e) => handleSettingChange('width', parseInt(e.target.value))}
-                disabled={isProcessing}
-              />
-            </div>
-
-            <div className="setting-group">
-              <label htmlFor="pattern-height">Pattern Height</label>
-              <input
-                id="pattern-height"
-                type="number"
-                min="10"
-                max="200"
-                value={importSettings.height}
-                onChange={(e) => handleSettingChange('height', parseInt(e.target.value))}
-                disabled={isProcessing}
-              />
-            </div>
-
-            <div className="setting-group">
-              <label>
+              <div className="setting-group">
+                <label htmlFor="pattern-width">Pattern Width</label>
                 <input
-                  type="checkbox"
-                  checked={importSettings.maintainAspectRatio}
-                  onChange={(e) => handleSettingChange('maintainAspectRatio', e.target.checked)}
+                  id="pattern-width"
+                  type="number"
+                  min="10"
+                  max="200"
+                  value={importSettings.width}
+                  onChange={(e) => handleSettingChange('width', parseInt(e.target.value))}
                   disabled={isProcessing}
                 />
-                Maintain aspect ratio
-              </label>
-            </div>
+              </div>
 
-            <div className="setting-group">
-              <label htmlFor="max-colors">Maximum Colors</label>
-              <input
-                id="max-colors"
-                type="number"
-                min="2"
-                max="50"
-                value={importSettings.maxColors}
-                onChange={(e) => handleSettingChange('maxColors', parseInt(e.target.value))}
-                disabled={isProcessing}
-              />
-              <small>Fewer colors create simpler patterns</small>
+              <div className="setting-group">
+                <label htmlFor="pattern-height">Pattern Height</label>
+                <input
+                  id="pattern-height"
+                  type="number"
+                  min="10"
+                  max="200"
+                  value={importSettings.height}
+                  onChange={(e) => handleSettingChange('height', parseInt(e.target.value))}
+                  disabled={isProcessing}
+                />
+              </div>
+
+              <div className="setting-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={importSettings.maintainAspectRatio}
+                    onChange={(e) => handleSettingChange('maintainAspectRatio', e.target.checked)}
+                    disabled={isProcessing}
+                  />
+                  Maintain aspect ratio
+                </label>
+              </div>
+
+              <div className="setting-group">
+                <label htmlFor="max-colors">Maximum Colors</label>
+                <input
+                  id="max-colors"
+                  type="number"
+                  min="2"
+                  max="50"
+                  value={importSettings.maxColors}
+                  onChange={(e) => handleSettingChange('maxColors', parseInt(e.target.value))}
+                  disabled={isProcessing}
+                />
+                <small>Fewer colors create simpler patterns</small>
+              </div>
             </div>
-          </div>
+          )}
 
           {error && (
             <div className="error-message" role="alert">

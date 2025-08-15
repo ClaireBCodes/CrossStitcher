@@ -10,7 +10,6 @@ import Accordion from 'react-bootstrap/Accordion';
 // Extracted components
 import UndoRedoControls from './editor/UndoRedoControls';
 import ZoomControls from './editor/ZoomControls';
-import FileOperations from './editor/FileOperations';
 import GridSizeControls from './editor/GridSizeControls';
 import CanvasBackgroundSelector from './editor/CanvasBackgroundSelector';
 import ImageImport from './editor/ImageImport';
@@ -51,7 +50,7 @@ const CrossStitchEditor = ({ colours = [] }) => {
             </Accordion.Item>
 
             <Accordion.Item eventKey="1">
-              <Accordion.Header>Colors</Accordion.Header>
+              <Accordion.Header>Colours</Accordion.Header>
               <Accordion.Body>
                 <ColorPalette colors={colours} />
               </Accordion.Body>
@@ -60,24 +59,25 @@ const CrossStitchEditor = ({ colours = [] }) => {
             <Accordion.Item eventKey="2">
               <Accordion.Header>File</Accordion.Header>
               <Accordion.Body>
-                <FileOperations />
-                <button
-                  className="btn-icon-text"
-                  onClick={() => setShowImageImport(true)}
-                  title="Import image as pattern"
-                >
-                  <i className="bi bi-image"></i>
-                  <span>Import Image</span>
-                </button>
-                <button
-                  className="btn-icon-text"
-                  onClick={() => setShowPatternExport(true)}
-                  title="Export pattern"
-                >
-                  <i className="bi bi-download"></i>
-                  <span>Export Pattern</span>
-                </button>
-                <GridSizeControls />
+                <div className="file-section">
+                  <div className="file-operations-grid">
+                    <button
+                      className="file-icon-btn btn-outline-secondary"
+                      onClick={() => setShowImageImport(true)}
+                      title="Import (Image or Pattern File)"
+                    >
+                      <i className="bi bi-upload"></i>
+                    </button>
+                    <button
+                      className="file-icon-btn btn-outline-secondary"
+                      onClick={() => setShowPatternExport(true)}
+                      title="Export Pattern"
+                    >
+                      <i className="bi bi-download"></i>
+                    </button>
+                  </div>
+                  <GridSizeControls />
+                </div>
               </Accordion.Body>
             </Accordion.Item>
 
