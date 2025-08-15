@@ -250,32 +250,34 @@
 .image-options span {
   min-width: 40px;
   text-align: right;
-  color: var(--color-text-primary);
+  color: #ffffff;
 }
 
 .export-preview {
-  background: var(--color-sidebar-header);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-lg);
+  background: #252526;
+  border-radius: 4px;
+  padding: 12px;
   display: flex;
-  gap: var(--spacing-xl);
+  gap: 20px;
+  border: 1px solid #3e3e42;
+  margin-top: 12px;
 }
 
 .preview-info {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-md);
+  gap: 8px;
+  color: #9a9a9a;
+  font-size: 12px;
 }
 
 .preview-info i {
   font-size: 20px;
-  color: var(--color-primary);
+  color: #007acc;
 }
 
 .preview-info strong {
-  color: var(--color-text-primary);
+  color: #ffffff;
   display: block;
   margin-bottom: 2px;
 }

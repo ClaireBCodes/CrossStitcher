@@ -92,6 +92,36 @@
   flex-shrink: 0;
 }
 
+.legend-symbol.clickable {
+  cursor: pointer;
+  transition: all 150ms;
+}
+
+.legend-symbol.clickable:hover {
+  background: #2d2d30;
+  border-color: #007acc;
+}
+
+.legend-symbol-select {
+  width: 24px;
+  height: 24px;
+  background: #1e1e1e;
+  border: 1px solid #007acc;
+  border-radius: 3px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.legend-symbol-select:focus {
+  outline: none;
+  border-color: #0098ff;
+  box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.3);
+}
+
 .legend-color-swatch {
   width: 24px;
   height: 24px;

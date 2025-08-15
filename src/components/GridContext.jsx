@@ -46,13 +46,14 @@ const GridProvider = ({
   // Wrapper for setGrid to maintain compatibility
   const setGrid = useCallback(
     (newGrid) => {
+      // Use the function form of setGridWithHistory to avoid dependency on grid
       if (typeof newGrid === 'function') {
-        setGridWithHistory(newGrid(grid));
+        setGridWithHistory((currentGrid) => newGrid(currentGrid));
       } else {
         setGridWithHistory(newGrid);
       }
     },
-    [grid, setGridWithHistory]
+    [setGridWithHistory]
   );
 
   // Function to change grid size
