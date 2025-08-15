@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import useUndoRedo from '../hooks/useUndoRedo';
 import { GRID_CONFIG, ZOOM_CONFIG, TOOLS } from '../constants/editor';
+import dmcColors from '../assets/dmc.json';
 
 const GridContext = React.createContext();
 
@@ -27,7 +28,9 @@ const GridProvider = ({
     clearHistory,
   } = useUndoRedo(defaultGrid);
 
-  const [selectedColour, setSelectedColour] = useState(initialSelectedColour);
+  // Set first DMC color as default if no initial color is provided and DMC colors exist
+  const defaultColor = initialSelectedColour || (dmcColors.length > 0 ? dmcColors[0] : null);
+  const [selectedColour, setSelectedColour] = useState(defaultColor);
   const [selectedTool, setSelectedTool] = useState(initialSelectedTool);
   const [gridSize, setGridSize] = useState({
     width: GRID_CONFIG.DEFAULT_WIDTH,
