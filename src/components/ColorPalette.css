@@ -31,12 +31,13 @@
 }
 
 .color-list {
-  display: grid;
+  display: grid !important;
   grid-template-columns: repeat(5, 1fr);
   gap: 4px;
   overflow-y: auto;
   max-height: 400px;
   padding: 4px;
+  width: 100%;
 }
 
 .color-item {

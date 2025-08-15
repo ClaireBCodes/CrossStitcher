@@ -5,7 +5,10 @@ import './SymbolPicker.css';
 const SymbolPicker = ({ onClose }) => {
   const { colorSymbolMapping, setSymbolAssignments, availableSymbols } = useContext(GridContext);
 
-  const [selectedColor, setSelectedColor] = useState(null);
+  // Select first color by default
+  const [selectedColor, setSelectedColor] = useState(
+    colorSymbolMapping && colorSymbolMapping.length > 0 ? colorSymbolMapping[0].key : null
+  );
 
   const handleSymbolSelect = (symbol) => {
     if (!selectedColor) return;
@@ -20,7 +23,8 @@ const SymbolPicker = ({ onClose }) => {
         ...prev,
         [selectedColor]: symbol,
       }));
-      setSelectedColor(null);
+      // Don't clear selection - stay on the same color
+      // setSelectedColor(null);
     }
   };
 
