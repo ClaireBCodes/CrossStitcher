@@ -2,6 +2,8 @@ import React, { useEffect, useCallback, useState } from 'react';
 import useUndoRedo from '../hooks/useUndoRedo';
 import { GRID_CONFIG, ZOOM_CONFIG, TOOLS } from '../constants/editor';
 import dmcColors from '../assets/dmc.json';
+import crossStitchSymbols from '../assets/cross-stitch-symbols.json';
+import { createColorSymbolMapping } from '../utils/patternAnalyzer';
 
 const GridContext = React.createContext();
 
@@ -38,6 +40,8 @@ const GridProvider = ({
   });
   const [zoomLevel, setZoomLevel] = useState(ZOOM_CONFIG.DEFAULT);
   const [canvasBackground, setCanvasBackground] = useState('#f5f5f5');
+  const [showSymbols, setShowSymbols] = useState(false);
+  const [symbolAssignments, setSymbolAssignments] = useState({});
 
   // Wrapper for setGrid to maintain compatibility
   const setGrid = useCallback(
@@ -131,6 +135,11 @@ const GridProvider = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [canUndo, canRedo, undo, redo, zoomIn, zoomOut, resetZoom]);
 
+  // Get color-symbol mapping whenever grid changes
+  const colorSymbolMapping = React.useMemo(() => {
+    return createColorSymbolMapping(grid, crossStitchSymbols, symbolAssignments);
+  }, [grid, symbolAssignments]);
+
   return (
     <GridContext.Provider
       value={{
@@ -152,6 +161,12 @@ const GridProvider = ({
         resetZoom,
         canvasBackground,
         setCanvasBackground,
+        showSymbols,
+        setShowSymbols,
+        symbolAssignments,
+        setSymbolAssignments,
+        colorSymbolMapping,
+        availableSymbols: crossStitchSymbols,
       }}
     >
       {children}

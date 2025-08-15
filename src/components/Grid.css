@@ -17,6 +17,9 @@
   box-sizing: border-box;
   position: relative;
   transition: all 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .grid-cell:hover {
@@ -54,4 +57,28 @@
   height: 100%;
   padding: 20px;
   box-sizing: border-box;
+}
+
+/* Symbol display */
+.grid-cell-symbol {
+  font-size: 12px;
+  font-weight: bold;
+  color: #000000;
+  text-shadow:
+    0 0 2px #ffffff,
+    0 0 4px #ffffff;
+  pointer-events: none;
+  user-select: none;
+  z-index: 2;
+}
+
+/* Adjust symbol color for better contrast on dark colors */
+.grid-cell.has-symbol {
+  position: relative;
+}
+
+/* For filled cells with symbols, ensure symbol is visible */
+.grid-cell.filled .grid-cell-symbol {
+  mix-blend-mode: difference;
+  filter: invert(1);
 }

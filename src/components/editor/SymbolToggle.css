@@ -1,0 +1,58 @@
+.symbol-toggle-container {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background: #252526;
+  border-radius: 4px;
+}
+
+.symbol-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  position: relative;
+}
+
+.symbol-toggle input[type='checkbox'] {
+  display: none;
+}
+
+.toggle-slider {
+  width: 36px;
+  height: 20px;
+  background: #3e3e42;
+  border-radius: 10px;
+  position: relative;
+  transition: background 200ms;
+}
+
+.toggle-slider::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  background: #cccccc;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition:
+    transform 200ms,
+    background 200ms;
+}
+
+.symbol-toggle input:checked + .toggle-slider {
+  background: #007acc;
+}
+
+.symbol-toggle input:checked + .toggle-slider::after {
+  transform: translateX(16px);
+  background: #ffffff;
+}
+
+.toggle-label {
+  color: #cccccc;
+  font-size: 12px;
+  font-weight: 500;
+  user-select: none;
+}

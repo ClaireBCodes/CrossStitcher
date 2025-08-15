@@ -14,6 +14,8 @@ import GridSizeControls from './editor/GridSizeControls';
 import CanvasBackgroundSelector from './editor/CanvasBackgroundSelector';
 import ImageImport from './editor/ImageImport';
 import PatternExport from './editor/PatternExport';
+import SymbolToggle from './editor/SymbolToggle';
+import ColorLegend from './editor/ColorLegend';
 
 const CrossStitchEditor = ({ colours = [] }) => {
   const { grid, setGrid } = useContext(GridContext);
@@ -53,6 +55,9 @@ const CrossStitchEditor = ({ colours = [] }) => {
               <Accordion.Header>Colours</Accordion.Header>
               <Accordion.Body>
                 <ColorPalette colors={colours} />
+                <div style={{ marginTop: '12px' }}>
+                  <ColorLegend />
+                </div>
               </Accordion.Body>
             </Accordion.Item>
 
@@ -85,6 +90,9 @@ const CrossStitchEditor = ({ colours = [] }) => {
               <Accordion.Header>Settings</Accordion.Header>
               <Accordion.Body>
                 <CanvasBackgroundSelector />
+                <div style={{ marginTop: '12px' }}>
+                  <SymbolToggle />
+                </div>
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
