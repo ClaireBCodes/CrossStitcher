@@ -1,30 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { GridContext } from '../GridContext';
+import SymbolPicker from './SymbolPicker';
 import './ColorLegend.css';
 
 const ColorLegend = () => {
-  const { colorSymbolMapping, showSymbols, setSymbolAssignments, availableSymbols } =
-    useContext(GridContext);
+  const { colorSymbolMapping, showSymbols } = useContext(GridContext);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [editingColor, setEditingColor] = useState(null);
-
-  const handleSymbolChange = (colorKey, newSymbol) => {
-    setSymbolAssignments((prev) => ({
-      ...prev,
-      [colorKey]: newSymbol,
-    }));
-    setEditingColor(null);
-  };
-
-  const getAvailableSymbolsForColor = (currentSymbol) => {
-    // Get all currently used symbols except the current one
-    const usedSymbols = new Set(
-      colorSymbolMapping.map((c) => c.symbol).filter((s) => s !== currentSymbol)
-    );
-
-    // Return symbols that aren't currently in use
-    return availableSymbols.filter((s) => !usedSymbols.has(s.symbol));
-  };
+  const [showSymbolPicker, setShowSymbolPicker] = useState(false);
 
   if (!colorSymbolMapping || colorSymbolMapping.length === 0) {
     return (
@@ -46,31 +28,7 @@ const ColorLegend = () => {
           <div className="color-legend-list">
             {colorSymbolMapping.map((color) => (
               <div key={color.key} className="color-legend-item">
-                {showSymbols &&
-                  (editingColor === color.key ? (
-                    <select
-                      className="legend-symbol-select"
-                      value={color.symbol}
-                      onChange={(e) => handleSymbolChange(color.key, e.target.value)}
-                      onBlur={() => setEditingColor(null)}
-                      autoFocus
-                    >
-                      <option value={color.symbol}>{color.symbol}</option>
-                      {getAvailableSymbolsForColor(color.symbol).map((sym) => (
-                        <option key={sym.symbol} value={sym.symbol}>
-                          {sym.symbol} - {sym.description}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    <div
-                      className="legend-symbol clickable"
-                      onClick={() => setEditingColor(color.key)}
-                      title="Click to change symbol"
-                    >
-                      {color.symbol}
-                    </div>
-                  ))}
+                {showSymbols && <div className="legend-symbol">{color.symbol}</div>}
                 <div
                   className="legend-color-swatch"
                   style={{ backgroundColor: `#${color.hex}` }}
@@ -84,9 +42,17 @@ const ColorLegend = () => {
               </div>
             ))}
           </div>
+          <div className="legend-actions">
+            <button className="btn-select-symbols" onClick={() => setShowSymbolPicker(true)}>
+              <i className="bi bi-palette2"></i>
+              Select symbols
+            </button>
+          </div>
           <div className="legend-stats">Total colours: {colorSymbolMapping.length}</div>
         </>
       )}
+
+      {showSymbolPicker && <SymbolPicker onClose={() => setShowSymbolPicker(false)} />}
     </div>
   );
 };
