@@ -5,6 +5,7 @@ import ColorPalette from './ColorPalette';
 import Toolbar from './Toolbar';
 import './CrossStitchEditor.css';
 import { GridContext } from './GridContext';
+import { clearGrid as clearGridUtil } from '../utils/gridUtils';
 import Accordion from 'react-bootstrap/Accordion';
 
 // Extracted components
@@ -24,13 +25,7 @@ const CrossStitchEditor = ({ colours = [] }) => {
 
   // Clear the entire grid
   const clearGrid = () => {
-    const currentHeight = grid.length;
-    const currentWidth = grid[0]?.length || 50;
-    setGrid(
-      Array(currentHeight)
-        .fill()
-        .map(() => Array(currentWidth).fill(null))
-    );
+    setGrid(clearGridUtil(grid));
   };
 
   return (

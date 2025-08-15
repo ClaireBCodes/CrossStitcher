@@ -4,14 +4,9 @@ import { GRID_CONFIG, ZOOM_CONFIG, TOOLS } from '../constants/editor';
 import dmcColors from '../assets/dmc.json';
 import crossStitchSymbols from '../assets/cross-stitch-symbols.json';
 import { createColorSymbolMapping } from '../utils/patternAnalyzer';
+import { createBlankGrid, resizeGrid } from '../utils/gridUtils';
 
 const GridContext = React.createContext();
-
-const blankGrid = (x_size = GRID_CONFIG.DEFAULT_WIDTH, y_size = GRID_CONFIG.DEFAULT_HEIGHT) => {
-  return Array(y_size)
-    .fill()
-    .map(() => Array(x_size).fill(null));
-};
 
 const GridProvider = ({
   children,
@@ -19,7 +14,8 @@ const GridProvider = ({
   initialGrid = null,
   initialSelectedTool = TOOLS.PENCIL,
 }) => {
-  const defaultGrid = initialGrid || blankGrid();
+  const defaultGrid =
+    initialGrid || createBlankGrid(GRID_CONFIG.DEFAULT_WIDTH, GRID_CONFIG.DEFAULT_HEIGHT);
   const {
     state: grid,
     setState: setGridWithHistory,
@@ -59,17 +55,7 @@ const GridProvider = ({
   // Function to change grid size
   const changeGridSize = useCallback(
     (width, height) => {
-      const newGrid = blankGrid(width, height);
-      // Copy existing pattern to new grid (centered if smaller, cropped if larger)
-      const minWidth = Math.min(width, grid[0]?.length || 0);
-      const minHeight = Math.min(height, grid.length);
-
-      for (let y = 0; y < minHeight; y++) {
-        for (let x = 0; x < minWidth; x++) {
-          newGrid[y][x] = grid[y][x];
-        }
-      }
-
+      const newGrid = resizeGrid(grid, width, height);
       setGridWithHistory(newGrid);
       setGridSize({ width, height });
       clearHistory();
