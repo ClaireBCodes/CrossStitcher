@@ -1,8 +1,6 @@
 .color-legend {
   background: #252526;
   border-radius: 4px;
-  padding: 12px;
-  max-height: 400px;
   display: flex;
   flex-direction: column;
 }
@@ -14,13 +12,44 @@
   font-size: 12px;
 }
 
+.color-legend-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 150ms;
+}
+
+.color-legend-header:hover {
+  background: #2d2d30;
+}
+
+.color-legend-header i {
+  font-size: 10px;
+  color: #cccccc;
+}
+
 .color-legend-title {
-  margin: 0 0 12px 0;
+  margin: 0;
   color: #ffffff;
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  flex: 1;
+}
+
+.legend-count-badge {
+  background: #007acc;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
 }
 
 .color-legend-list {
@@ -29,6 +58,8 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  padding: 0 12px;
+  max-height: 300px;
 }
 
 .color-legend-item {
@@ -97,7 +128,7 @@
 }
 
 .legend-stats {
-  margin-top: 12px;
+  margin: 12px;
   padding-top: 12px;
   border-top: 1px solid #3e3e42;
   font-size: 11px;

@@ -58,6 +58,9 @@ const CrossStitchEditor = ({ colours = [] }) => {
                 <div style={{ marginTop: '12px' }}>
                   <ColorLegend />
                 </div>
+                <div style={{ marginTop: '12px' }}>
+                  <SymbolToggle />
+                </div>
               </Accordion.Body>
             </Accordion.Item>
 
@@ -90,9 +93,6 @@ const CrossStitchEditor = ({ colours = [] }) => {
               <Accordion.Header>Settings</Accordion.Header>
               <Accordion.Body>
                 <CanvasBackgroundSelector />
-                <div style={{ marginTop: '12px' }}>
-                  <SymbolToggle />
-                </div>
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
