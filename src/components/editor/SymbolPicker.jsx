@@ -68,18 +68,21 @@ const SymbolPicker = ({ onClose }) => {
         <div className="modal-body symbol-picker-body">
           <div className="colors-panel">
             <h4>Colors in Pattern</h4>
-            <div className="color-list">
+            <div className="picker-color-list">
               {colorSymbolMapping.map((color) => (
                 <div
                   key={color.key}
-                  className={`color-item ${selectedColor === color.key ? 'selected' : ''}`}
+                  className={`picker-color-item ${selectedColor === color.key ? 'selected' : ''}`}
                   onClick={() => setSelectedColor(color.key)}
                 >
-                  <div className="color-symbol">{getSymbolForColor(color.key)}</div>
-                  <div className="color-swatch" style={{ backgroundColor: `#${color.hex}` }} />
-                  <div className="color-details">
-                    <span className="color-floss">{color.floss}</span>
-                    <span className="color-name">{color.name}</span>
+                  <div className="picker-color-symbol">{getSymbolForColor(color.key)}</div>
+                  <div
+                    className="picker-color-swatch"
+                    style={{ backgroundColor: `#${color.hex}` }}
+                  />
+                  <div className="picker-color-details">
+                    <span className="picker-color-floss">{color.floss}</span>
+                    <span className="picker-color-name">{color.name}</span>
                   </div>
                 </div>
               ))}

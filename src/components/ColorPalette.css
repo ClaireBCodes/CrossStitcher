@@ -31,7 +31,7 @@
 }
 
 .color-list {
-  display: grid !important;
+  display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 4px;
   overflow-y: auto;
