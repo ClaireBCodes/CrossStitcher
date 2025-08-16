@@ -1,116 +1,124 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 import Grid from './Grid';
 import ColorPalette from './ColorPalette';
 import Toolbar from './Toolbar';
 import './CrossStitchEditor.css';
 import { GridContext } from './GridContext';
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import FloatingLabel from "react-bootstrap/FloatingLabel";
+import { clearGrid as clearGridUtil } from '../utils/gridUtils';
+import Accordion from 'react-bootstrap/Accordion';
 
+// Extracted components
+import UndoRedoControls from './editor/UndoRedoControls';
+import ZoomControls from './editor/ZoomControls';
+import GridSizeControls from './editor/GridSizeControls';
+import CanvasBackgroundSelector from './editor/CanvasBackgroundSelector';
+import ImageImport from './editor/ImageImport';
+import PatternExport from './editor/PatternExport';
+import SymbolToggle from './editor/SymbolToggle';
+import ColorLegend from './editor/ColorLegend';
 
-const CrossStitchEditor = ({colours = [], gridSize = 100}) => {
+const CrossStitchEditor = ({ colours = [] }) => {
   const { grid, setGrid } = useContext(GridContext);
+  const [showImageImport, setShowImageImport] = useState(false);
+  const [showPatternExport, setShowPatternExport] = useState(false);
 
   // Clear the entire grid
   const clearGrid = () => {
-    setGrid(Array(gridSize).fill().map(() => Array(gridSize).fill(null)));
-  };
-
-  // Save pattern as JSON
-  const savePattern = () => {
-    const patternJson = JSON.stringify(grid);
-    const blob = new Blob([patternJson], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "cross-stitch-pattern.json";
-    a.click();
-
-    URL.revokeObjectURL(url);
-  };
-
-  // Load pattern from JSON file
-  const loadPattern = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const loadedGrid = JSON.parse(e.target.result);
-        setGrid(loadedGrid);
-      } catch (error) {
-        console.error("Error parsing pattern file:", error);
-      }
-    };
-    reader.readAsText(file);
+    setGrid(clearGridUtil(grid));
   };
 
   return (
     <div className="cross-stitch-editor">
-      <h1>Cross-Stitch Pattern Editor</h1>
-
-      <div className="editor-layout">
-        <div className="tools-panel">
-          <Toolbar
-            clearGrid={clearGrid}
-            savePattern={savePattern}
-          />
-
-          <div className="file-operations">
-            <Button variant="primary" type="button" onClick={savePattern}>
-              Save Pattern
-            </Button>
-
-            <Form.Control
-              id="fileInput"
-              type="file"
-              onChange={loadPattern}
-              hidden={true}
-            />
-            <Button>
-              <Form.Label
-                htmlFor="fileInput"
-                style={{ width: "100%", margin: 0, cursor: "pointer" }}
-              >
-                Load Pattern
-              </Form.Label>
-            </Button>
-
-            {/* Josh version */}
-            {/* <Form.Group>
-              <Form.Label>
-                <Button>Load Pattern</Button>
-                <Form.Control type="file" onChange={loadPattern} />
-              </Form.Label>
-            </Form.Group> */}
-
-            {/* AI Attempt */}
-            {/* <input
-              type="file"
-              id="load-pattern"
-              accept=".json"
-              onChange={loadPattern}
-              style={{ display: "none" }}
-            />
-            <label htmlFor="load-pattern" className="button-like">
-              <Button variant="primary">Load Pattern</Button>
-            </label> */}
+      <div className="editor-workspace">
+        <aside className="sidebar" role="complementary" aria-label="Editor tools and settings">
+          <div className="sidebar-header">
+            <h2>CrossStitcher</h2>
           </div>
-          
-          <ColorPalette 
-            colors={colours}
-          />
-        </div>
 
-        <div className="grid-container">
-          <Grid />
-        </div>
+          <Accordion defaultActiveKey={['0', '1', '2', '3']} alwaysOpen>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>Tools</Accordion.Header>
+              <Accordion.Body>
+                <Toolbar clearGrid={clearGrid} />
+                <UndoRedoControls />
+                <ZoomControls />
+              </Accordion.Body>
+            </Accordion.Item>
+
+            <Accordion.Item eventKey="1">
+              <Accordion.Header>Colours</Accordion.Header>
+              <Accordion.Body>
+                <ColorPalette colors={colours} />
+                <div style={{ marginTop: '12px' }}>
+                  <ColorLegend />
+                </div>
+                <div style={{ marginTop: '12px' }}>
+                  <SymbolToggle />
+                </div>
+              </Accordion.Body>
+            </Accordion.Item>
+
+            <Accordion.Item eventKey="2">
+              <Accordion.Header>File</Accordion.Header>
+              <Accordion.Body>
+                <div className="file-section">
+                  <div className="file-operations-grid">
+                    <button
+                      className="file-icon-btn btn-outline-secondary"
+                      onClick={() => setShowImageImport(true)}
+                      title="Import (Image or Pattern File)"
+                    >
+                      <i className="bi bi-upload"></i>
+                    </button>
+                    <button
+                      className="file-icon-btn btn-outline-secondary"
+                      onClick={() => setShowPatternExport(true)}
+                      title="Export Pattern"
+                    >
+                      <i className="bi bi-download"></i>
+                    </button>
+                  </div>
+                  <GridSizeControls />
+                </div>
+              </Accordion.Body>
+            </Accordion.Item>
+
+            <Accordion.Item eventKey="3">
+              <Accordion.Header>Settings</Accordion.Header>
+              <Accordion.Body>
+                <CanvasBackgroundSelector />
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+        </aside>
+
+        <main className="main-canvas" role="main" aria-label="Pattern grid">
+          <div className="canvas-container">
+            <Grid />
+          </div>
+        </main>
       </div>
+
+      {showImageImport && <ImageImport onClose={() => setShowImageImport(false)} />}
+
+      {showPatternExport && <PatternExport onClose={() => setShowPatternExport(false)} />}
     </div>
   );
+};
+
+CrossStitchEditor.propTypes = {
+  colours: PropTypes.arrayOf(
+    PropTypes.shape({
+      floss: PropTypes.string.isRequired,
+      hex: PropTypes.string.isRequired,
+      name: PropTypes.string,
+      description: PropTypes.string,
+      red: PropTypes.number,
+      green: PropTypes.number,
+      blue: PropTypes.number,
+    })
+  ),
 };
 
 export default CrossStitchEditor;

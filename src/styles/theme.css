@@ -1,0 +1,86 @@
+:root {
+  /* Dark theme colors */
+  --color-background: #1e1e1e;
+  --color-sidebar-bg: #2d2d30;
+  --color-sidebar-header: #252526;
+  --color-border: #3e3e42;
+  --color-border-light: #5a5a5a;
+
+  /* Text colors */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #e8e8e8;
+  --color-text-muted: #d0d0d0;
+  --color-text-disabled: #8e8e8e;
+
+  /* Interactive colors */
+  --color-primary: #007acc;
+  --color-primary-hover: #0098ff;
+  --color-danger: #f48771;
+  --color-danger-hover: #ff6b6b;
+
+  /* Button colors */
+  --color-button-bg: #404040;
+  --color-button-hover: #5a5a5a;
+  --color-button-active: #007acc;
+  --color-button-disabled: #2d2d30;
+
+  /* Grid colors */
+  --color-grid-line: #e0e0e0;
+  --color-grid-line-major: #999999;
+  --color-grid-bg-default: #f5f5f5;
+  --color-canvas-bg: #535353;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-xxl: 24px;
+
+  /* Sizing */
+  --sidebar-width: 280px;
+  --grid-cell-size: 18px;
+
+  /* Animation */
+  --animation-fast: 150ms;
+  --animation-normal: 200ms;
+  --animation-slow: 300ms;
+
+  /* Border radius */
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+
+  /* Font sizes */
+  --font-size-xs: 9px;
+  --font-size-sm: 11px;
+  --font-size-md: 12px;
+  --font-size-lg: 13px;
+  --font-size-xl: 14px;
+
+  /* Z-index layers */
+  --z-index-dropdown: 1000;
+  --z-index-modal: 1050;
+  --z-index-popover: 1060;
+  --z-index-tooltip: 1070;
+}
+
+/* Light theme (future implementation) */
+[data-theme='light'] {
+  --color-background: #ffffff;
+  --color-sidebar-bg: #f3f3f3;
+  --color-sidebar-header: #e0e0e0;
+  --color-border: #d4d4d4;
+  --color-border-light: #e0e0e0;
+
+  --color-text-primary: #1e1e1e;
+  --color-text-secondary: #2d2d30;
+  --color-text-muted: #4a4a4a;
+  --color-text-disabled: #8e8e8e;
+
+  --color-button-bg: #ffffff;
+  --color-button-hover: #f0f0f0;
+  --color-grid-bg-default: #ffffff;
+  --color-canvas-bg: #f5f5f5;
+}

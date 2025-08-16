@@ -1,6 +1,6 @@
-import "../styles/componentStyles.css";
-import React from "react";
-import Nav from "react-bootstrap/Nav";
+import '../styles/componentStyles.css';
+import React from 'react';
+import Nav from 'react-bootstrap/Nav';
 
 export function FooterBar() {
   return (

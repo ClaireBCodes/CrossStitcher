@@ -1,7 +1,7 @@
 import { DMC } from './DMC';
 import PropTypes from 'prop-types';
 
-function DMCGrid({colours}) {
+function DMCGrid({ colours }) {
   return (
     <div>
       {colours.map((colour) => (
@@ -11,7 +11,7 @@ function DMCGrid({colours}) {
   );
 }
 
-export { DMCGrid  };
+export { DMCGrid };
 
 DMCGrid.propTypes = {
   colours: PropTypes.arrayOf(

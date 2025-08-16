@@ -1,5 +1,5 @@
 import { DMCGrid } from './DMCGrid';
-import dmcData from './assets/dmc.json';
+import dmcData from '../assets/dmc.json';
 
 export default {
   title: 'Components/DMC/Grid',
@@ -8,7 +8,7 @@ export default {
     layout: 'centered',
   },
   tags: ['autodocs'],
-}
+};
 
 export const Grid = {
   args: {

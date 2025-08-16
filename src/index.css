@@ -9,7 +9,7 @@
 
   --primary-color: #ff79c6;
   /* --secondary-color: #bd93f9; */
-  --secondary-color: #6495ED;
+  --secondary-color: #6495ed;
   --background-light: #fdf0f5;
   --background-dark: #282a36;
   --text-light: #fdf0f5;
@@ -38,7 +38,9 @@ body {
   color: var(--text-dark);
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-weight: 600;
   color: var(--primary-color);
 }
@@ -53,7 +55,9 @@ button {
   background-color: var(--primary-color);
   color: var(--text-light);
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
 }
 button:hover {
   background-color: var(--secondary-color);
@@ -70,7 +74,8 @@ button:focus {
   margin-bottom: 1rem;
 }
 
-input[type="text"], textarea {
+input[type='text'],
+textarea {
   width: 12ch;
   max-width: 100%;
   padding: 0.5em;

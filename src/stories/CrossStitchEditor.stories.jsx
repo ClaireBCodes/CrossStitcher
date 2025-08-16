@@ -17,8 +17,7 @@ const mockDmcColors = [
 ];
 
 // Mock the fetch call that loads DMC colors without using Jest
-const originalFetch = window.fetch;
-window.fetch = (url) => {
+window.fetch = () => {
   return Promise.resolve({
     json: () => Promise.resolve(mockDmcColors),
   });
@@ -28,26 +27,15 @@ export default {
   title: 'CrossStitcher/CrossStitchEditor',
   component: CrossStitchEditor,
   parameters: {
-    layout: 'fullscreen',
     // Disable default padding to show the editor at full size
-    layout: {
-      fullscreen: true,
-      padding: 0,
-    },
+    layout: 'fullscreen',
     // This will make the stories not interfere with each other's state
     componentToggle: { disable: true },
   },
 };
 
-// Create a wrapper component to handle fetch cleanup
+// Create a wrapper component for stories
 const StoryWrapper = ({ children }) => {
-  React.useEffect(() => {
-    // Cleanup function to restore original fetch when component unmounts
-    return () => {
-      window.fetch = originalFetch;
-    };
-  }, []);
-  
   return <>{children}</>;
 };
 
@@ -62,40 +50,44 @@ export const DefaultEditor = () => (
 
 // Editor with a pre-defined pattern
 export const EditorWithPattern = () => {
-  const coral = { floss: '817', name: 'Coral Red', hex: 'E24D4D' }
-  const red = { floss: '666', name: 'Bright Red', hex: 'E31E24' }
-  const white = { floss: 'B5200', name: 'Snow White', hex: 'FFFFFF' }
+  const coral = { floss: '817', name: 'Coral Red', hex: 'E24D4D' };
+  const red = { floss: '666', name: 'Bright Red', hex: 'E31E24' };
+  const white = { floss: 'B5200', name: 'Snow White', hex: 'FFFFFF' };
 
   const toColour = (row) => {
     return row.map((cell) => {
       switch (cell) {
-        case 1: return coral;
-        case 2: return red;
-        case 3: return white;
-        default: return null; // Default / 0 to no color
+        case 1:
+          return coral;
+        case 2:
+          return red;
+        case 3:
+          return white;
+        default:
+          return null; // Default / 0 to no color
       }
     });
-  }
+  };
 
   // Create a simple pattern - a heart shape
   const heart = [
-    [0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,2,2,0,0,0,2,2,0,0,0],
-    [0,0,2,1,1,2,0,2,1,1,2,0,0],
-    [0,2,1,1,1,1,2,1,1,3,1,2,0],
-    [0,2,1,1,1,1,1,1,1,1,1,2,0],
-    [0,0,2,1,1,1,1,1,1,1,2,0,0],
-    [0,0,0,2,1,1,1,1,1,2,0,0,0],
-    [0,0,0,0,2,1,1,1,2,0,0,0,0],
-    [0,0,0,0,0,2,1,2,0,0,0,0,0],
-    [0,0,0,0,0,0,2,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0],
-  ].map(toColour)
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 2, 2, 0, 0, 0, 2, 2, 0, 0, 0],
+    [0, 0, 2, 1, 1, 2, 0, 2, 1, 1, 2, 0, 0],
+    [0, 2, 1, 1, 1, 1, 2, 1, 1, 3, 1, 2, 0],
+    [0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0],
+    [0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0],
+    [0, 0, 0, 2, 1, 1, 1, 1, 1, 2, 0, 0, 0],
+    [0, 0, 0, 0, 2, 1, 1, 1, 2, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 2, 1, 2, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ].map(toColour);
 
   return (
     <StoryWrapper>
       <GridProvider initialGrid={heart}>
-        <CrossStitchEditor colours={mockDmcColors}/>
+        <CrossStitchEditor colours={mockDmcColors} />
       </GridProvider>
     </StoryWrapper>
   );
@@ -112,7 +104,7 @@ export const EditorInEraseMode = () => {
       }
     }, 300);
   }, []);
-  
+
   return (
     <StoryWrapper>
       <GridProvider>

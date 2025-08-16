@@ -18,19 +18,18 @@ export default {
 
 // Template for creating stories
 const Template = (args) => {
-  const {currentTool, ...rest} = args;
+  const { currentTool, ...rest } = args;
   return (
     <GridProvider initialSelectedTool={currentTool}>
       <Toolbar {...rest} />
     </GridProvider>
-
-  )
+  );
 };
 
 // Default state with pencil tool selected
 export const PencilSelected = Template.bind({});
 PencilSelected.args = {
-  currentTool: 'pencil',  
+  currentTool: 'pencil',
   clearGrid: action('grid cleared'),
   savePattern: action('pattern saved'),
 };
@@ -46,14 +45,14 @@ EraserSelected.args = {
 // Interactive state where user can switch between tools
 export const Interactive = () => {
   const [selectedTool, setSelectedTool] = React.useState('pencil');
-  
+
   const handleClearGrid = () => {
     // In a real implementation, this would clear the grid
     // For this story, we'll just show an alert
     action('grid cleared')();
     alert('Grid would be cleared in the real app');
   };
-  
+
   const handleSavePattern = () => {
     // In a real implementation, this would trigger pattern saving
     // For this story, we'll just show an alert
@@ -61,16 +60,11 @@ export const Interactive = () => {
     alert('Pattern would be saved in the real app');
   };
 
-  
   return (
-    <GridContext.Provider value={{selectedTool, setSelectedTool}}>
+    <GridContext.Provider value={{ selectedTool, setSelectedTool }}>
       <div style={{ width: '300px' }}>
         <h3>Current Tool: {selectedTool}</h3>
-        <Toolbar
-          
-          clearGrid={handleClearGrid}
-          savePattern={handleSavePattern}
-        />
+        <Toolbar clearGrid={handleClearGrid} savePattern={handleSavePattern} />
         <div style={{ marginTop: '20px' }}>
           <p>Click on the buttons above to change tools or trigger actions.</p>
           <p>The "Clear All" button will display a confirmation dialog.</p>
